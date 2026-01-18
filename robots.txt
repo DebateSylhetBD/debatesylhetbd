@@ -3,4 +3,5 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://debatesylhetbd.netlify.app/sitemap.xml
+
+Sitemap: https://debatesylhetbd.onrender.com/sitemap.xml
