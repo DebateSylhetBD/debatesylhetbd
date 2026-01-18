@@ -1,7 +1,4 @@
-# Allow all search engines
 User-agent: *
 Allow: /
-
-# Sitemap location
 
 Sitemap: https://debatesylhetbd.onrender.com/sitemap.xml
