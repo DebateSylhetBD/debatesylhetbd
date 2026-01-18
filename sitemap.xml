@@ -3,7 +3,7 @@
 
   <!-- Home page -->
   <url>
-    <loc>https://debatesylhetbd.netlify.app/</loc>
+    <loc>https://debatesylhetbd.onrender.com/</loc>
     <lastmod>2026-01-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -11,10 +11,11 @@
 
   <!-- Debate topics page -->
   <url>
-    <loc>https://debatesylhetbd.netlify.app/debate.html</loc>
+    <loc>https://debatesylhetbd.onrender.com</loc>
     <lastmod>2026-01-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+
 
 </urlset>
