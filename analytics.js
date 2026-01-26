@@ -1,37 +1,47 @@
-// ===== GOOGLE SHEET CONFIG =====
+// ======== GOOGLE SHEET + OPENSHEET SETUP ========
 const SHEET_ID = "1kgB_PttvCEMDlsMXkiO2jdsCpoe_BjBnpe674HcbnhQ";
 const PAGEVIEWS_API = `https://opensheet.elk.sh/${SHEET_ID}/PageViews`;
 const SEARCHES_API = `https://opensheet.elk.sh/${SHEET_ID}/Searches`;
 
-// ===== LOG PAGE VIEW =====
-async function logPageView(pageName) {
+// ======== LOG PAGE VIEW ========
+async function logPageView() {
   try {
-    fetch(`${PAGEVIEWS_API}/add?Timestamp=${encodeURIComponent(new Date().toISOString())}&Page=${encodeURIComponent(pageName)}`);
-  } catch (e) { console.error("PageView log failed:", e); }
+    const timestamp = new Date().toISOString();
+    const page = window.location.pathname || "unknown";
+    const url = `${PAGEVIEWS_API}/add?Timestamp=${encodeURIComponent(timestamp)}&Page=${encodeURIComponent(page)}`;
+    fetch(url).catch(err => console.error("PageView log failed:", err));
+  } catch (err) {
+    console.error("PageView logging error:", err);
+  }
 }
+logPageView(); // Log page view automatically
 
-// Automatically log current page
-logPageView(window.location.pathname);
-
-// ===== LOG SEARCH TERM =====
+// ======== LOG SEARCH TERM ========
 function logSearchTerm(term) {
   if (!term) return;
   try {
-    fetch(`${SEARCHES_API}/add?Timestamp=${encodeURIComponent(new Date().toISOString())}&SearchTerm=${encodeURIComponent(term)}`);
-  } catch (e) { console.error("Search log failed:", e); }
+    const timestamp = new Date().toISOString();
+    const url = `${SEARCHES_API}/add?Timestamp=${encodeURIComponent(timestamp)}&SearchTerm=${encodeURIComponent(term)}`;
+    fetch(url).catch(err => console.error("Search log failed:", err));
+  } catch (err) {
+    console.error("Search log error:", err);
+  }
 }
 
-// ===== DETECT YOUR SEARCH INPUT =====
+// ======== AUTOMATIC SEARCH LOGGING (NO ENTER BUTTON NEEDED) ========
 document.addEventListener("DOMContentLoaded", () => {
-  const input = document.getElementById("search"); // Your exact search input ID
+  const input = document.getElementById("search");
+  if(!input) return;
 
-  if(input){
-    input.addEventListener("keypress", function(evt){
-      if(evt.key === "Enter"){ // detect Enter key
-        evt.preventDefault();   // prevent default reload
-        const q = input.value.trim();
-        logSearchTerm(q);
-      }
-    });
-  }
+  let timeout;
+  input.addEventListener("input", () => {
+    clearTimeout(timeout);
+    const query = input.value.trim();
+    if(!query) return;
+
+    // Log search 1 second after user stops typing
+    timeout = setTimeout(() => {
+      logSearchTerm(query);
+    }, 1000);
+  });
 });
