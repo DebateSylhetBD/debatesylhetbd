@@ -18,12 +18,17 @@
 
   <url>
     <loc>https://debatesylhetbd.onrender.com/history.html</loc>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://debatesylhetbd.onrender.com/post.html</loc>
-    <priority>0.6</priority>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://debatesylhetbd.onrender.com/tawhid-abedin.html</loc>
+    <priority>0.8</priority>
   </url>
 
 </urlset>
+
