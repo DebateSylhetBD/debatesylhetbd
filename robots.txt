@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 disallow: /admin.html
-sitemap: https://debatesylhetbd.onrender.com/index_sitemap.xml
+sitemap: https://debatesylhetbd.onrender.com/sitemap_index.xml
 Sitemap: https://debatesylhetbd.onrender.com/sitemap.xml
 Sitemap: https://debatesylhetbd.onrender.com/sitemap-article.xml
 
@@ -17,3 +17,4 @@ Allow: /
 # Other bots
 User-agent: *
 Crawl-delay: 2
+
