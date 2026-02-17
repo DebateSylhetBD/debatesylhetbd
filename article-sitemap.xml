@@ -29,4 +29,28 @@
     </news:news>
   </url>
 
+      <url>
+  <loc>https://debatesylhetbd.onrender.com/khulna-division.html</loc>
+  <news:news>
+    <news:publication>
+      <news:name>DebateSylhetBD</news:name>
+      <news:language>en</news:language>
+    </news:publication>
+    <news:publication_date>2026-02-17</news:publication_date>
+    <news:title>Khulna Division – Complete Guide 2026</news:title>
+  </news:news>
+</url>
+
+<url>
+  <loc>https://debatesylhetbd.onrender.com/chattogram-division.html</loc>
+  <news:news>
+    <news:publication>
+      <news:name>DebateSylhetBD</news:name>
+      <news:language>en</news:language>
+    </news:publication>
+    <news:publication_date>2026-02-17</news:publication_date>
+    <news:title>Chattogram Division – Complete Guide 2026</news:title>
+  </news:news>
+</url>
+
 </urlset>
