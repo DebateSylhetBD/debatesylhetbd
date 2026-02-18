@@ -147,45 +147,60 @@ body{top:0!important;}
     </div>
     
     <!-- ULTRA SEO Internal Navigation -->
-<header class="main-header">
-    <div class="container">
-        <a href="/" class="logo">DebateSylhetBD</a>
-        
-        <nav class="main-nav">
-            <ul>
+    <!-- MINI ANIMATED INTERNAL MENU -->
+<nav class="mini-menu">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="article.html">Articles</a></li>
+    <li><a href="dhaka.html">Dhaka</a></li>
+    <li><a href="sylhet.html">Sylhet</a></li>
+    <li><a href="chattogram-division.html">Chattogram</a></li>
+    <li><a href="khulna-division.html">Khulna</a></li>
+    <li><a href="debate.html">Debate</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
 
-                <!-- HOME -->
-                <li><a href="/">Home</a></li>
+<style>
+/* MINI ANIMATED MENU */
+.mini-menu {background:#0073e6; display:inline-block; padding:0; margin:10px 0; border-radius:4px; overflow:hidden; font-family:sans-serif;}
+.mini-menu ul {list-style:none; margin:0; padding:0; display:flex;}
+.mini-menu li {margin:0;}
+.mini-menu a {
+  display:block;
+  padding:2px 10px;  /* tiny height ~10px visually */
+  font-size:10px;
+  line-height:10px;
+  text-decoration:none;
+  color:#fff;
+  font-weight:bold;
+  white-space:nowrap;
+  transition: all 0.4s ease;
+  position:relative;
+}
 
-                <!-- Debate Hub -->
-                <li class="dropdown">
-                  <a href="#">Debate Topics ▾</a>
-                  <ul class="submenu">
-                    <li><a href="/debate.html">Bangla Debate Topics</a></li>
-                  </ul>
-                </li>
+/* Hover animation */
+.mini-menu a::after {
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:0%;
+  height:2px;
+  background:#ffdd00;
+  transition: width 0.4s ease;
+}
+.mini-menu a:hover::after {width:100%;}
 
-                <!-- Articles / Division Guides -->
-                <li class="dropdown">
-                  <a href="#">Articles & Guides ▾</a>
-                  <ul class="submenu">
-                    <li><a href="/dhaka.html">Dhaka: Full Article</a></li>
-                    <li><a href="/sylhet.html">Sylhet District Guide</a></li>
-                    <li><a href="/chattogram-division.html">Chattogram Division Guide</a></li>
-                    <li><a href="/khulna-division.html">Khulna Division Guide</a></li>
-                  </ul>
-                </li>
-
-                <!-- Static Pages -->
-                <li><a href="/about.html">About Us</a></li>
-                <li><a href="/contact.html">Contact</a></li>
-
-                <!-- Extras -->
-                <li><a href="/sitemap.xml">Sitemap</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
+/* Color + scale on hover */
+.mini-menu a:hover {
+  color:#ffdd00;
+  transform:scale(1.1);
+  background:#005bb5;
+  border-radius:2px;
+}
+</style>
     
 
     <!-- Watermark -->
@@ -781,3 +796,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </body>
 
 </html>
+
