@@ -72,3 +72,16 @@ if (searchInput) {
     }, typingDelay);
   });
 }
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VKZC1K752H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-VKZC1K752H');
+</script>
+<script type="application/ld+json">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8554276395476663"
+     crossorigin="anonymous"></script>
