@@ -85,3 +85,18 @@ if (searchInput) {
 <script type="application/ld+json">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8554276395476663"
      crossorigin="anonymous"></script>
+document.write(`
+<div id="sticky-ad">
+  <script>
+    atOptions = {
+      'key' : '97eaa956c295deb2e507ef43d5611498',
+      'format' : 'iframe',
+      'height' : 50,
+      'width' : 320,
+      'params' : {}
+    };
+  <\/script>
+  <script src="https://www.highperformanceformat.com/97eaa956c295deb2e507ef43d5611498/invoke.js"><\/script>
+</div>
+`);
+
