@@ -13,11 +13,6 @@
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://debatesylhetbd.onrender.com/index.html</loc>
-  <lastmod>2026-02-15T14:47:37+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
   <loc>https://debatesylhetbd.onrender.com/debate.html</loc>
   <lastmod>2026-02-15T14:47:37+00:00</lastmod>
   <priority>0.80</priority>
@@ -47,7 +42,47 @@
   <lastmod>2026-02-15T14:47:37+00:00</lastmod>
   <priority>0.80</priority>
 </url>
+<url>
+    <loc>https://debatesylhetbd.onrender.com/what-is-debate.html</loc>
+    <lastmod>2026-02-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
 
+  <url>
+    <loc>https://debatesylhetbd.onrender.com/debate-rules.html</loc>
+    <lastmod>2026-02-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://debatesylhetbd.onrender.com/types-of-debate.html</loc>
+    <lastmod>2026-02-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://debatesylhetbd.onrender.com/debate-skills.html</loc>
+    <lastmod>2026-02-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://debatesylhetbd.onrender.com/debate-preparation.html</loc>
+    <lastmod>2026-02-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://debatesylhetbd.onrender.com/advanced-rebuttal-techniques.html</loc>
+    <lastmod>2026-02-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
   <url>
     <loc>https://debatesylhetbd.onrender.com/about.html</loc>
     <lastmod>2026-02-16</lastmod>
@@ -96,6 +131,7 @@
 
 
 </urlset>
+
 
 
 
