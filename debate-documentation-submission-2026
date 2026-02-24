@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Debate Documentation 2026 | DebateSylhetBD</title>
+<meta name="description" content="Submit your debate experience, tips, and tricks. Get featured and receive a certificate from DebateSylhetBD, the top Bangla debate platform.">
+<meta name="keywords" content="Bangla debate, debate experience, Sylhet debate, debate submission, DebateSylhetBD">
+<link rel="canonical" href="https://debatesylhetbd.onrender.com/debate-documentation-submission-2026/">
+
+<!-- Open Graph / Twitter Cards -->
+<meta property="og:title" content="Debate Documentation 2026 | DebateSylhetBD">
+<meta property="og:description" content="Submit your debate experience and get featured. Receive an official certificate.">
+<meta property="og:image" content="https://debatesylhetbd.onrender.com/logo.png">
+<meta property="og:url" content="https://debatesylhetbd.onrender.com/debate-documentation-submission-2026/">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Structured Data JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"EducationalOrganization",
+  "name":"DebateSylhetBD",
+  "url":"https://debatesylhetbd.onrender.com",
+  "logo":"https://debatesylhetbd.onrender.com/logo.png",
+  "sameAs":[
+    "https://www.facebook.com/DebateSylhetBD",
+    "https://twitter.com/DebateSylhetBD"
+  ],
+  "contactPoint":{
+    "@type":"ContactPoint",
+    "email":"rahimchawdhury63@gmail.com",
+    "contactType":"customer support",
+    "availableLanguage":"Bangla"
+  }
+}
+</script>
+
+<!-- Fonts & Styles -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Reset & Base */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#f4f6f9;color:#333;line-height:1.6;}
+a{text-decoration:none;transition:0.3s;color:#007bff;}
+a:hover{color:#0056b3;}
+
+/* NAVBAR */
+nav{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    background:#111;
+    padding:12px 0;
+}
+nav a{
+    color:#fff;
+    margin:5px 15px;
+    font-weight:500;
+}
+nav a:hover{color:#00bfff;text-decoration:underline;}
+
+/* HERO */
+.hero{
+    text-align:center;
+    padding:60px 15px;
+    background:linear-gradient(135deg,#007bff,#00c6ff);
+    color:white;
+    border-radius:0 0 30px 30px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    animation: fadeInHero 1.5s ease-in-out;
+}
+.hero h1{
+    font-size:2.8rem;
+    margin-bottom:10px;
+    font-weight:700;
+}
+.hero p{
+    font-size:1.2rem;
+    font-weight:500;
+}
+@keyframes fadeInHero{
+    0%{opacity:0; transform:translateY(-20px);}
+    100%{opacity:1; transform:translateY(0);}
+}
+
+/* CONTAINER */
+.container{
+    max-width:720px;
+    margin:30px auto;
+    background:#2A2A61;
+    padding:40px;
+    border-radius:15px;
+    box-shadow:0 12px 25px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+.container:hover{
+    box-shadow:0 15px 35px rgba(0,0,0,0.15);
+}
+
+/* INFO BOX */
+.info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:#eef5ff;
+    padding:20px;
+    border-left:6px solid #692012;
+    border-radius:8px;
+    margin-bottom:25px;
+    font-size:15px;
+}
+
+/* FORM */
+form input, form textarea{
+    width:100%;
+    padding:14px;
+    margin:10px 0;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:16px;
+    transition:0.3s;
+}
+form input:focus, form textarea:focus{
+    border-color:#692012;
+    box-shadow:0 0 10px rgba(0,123,255,0.2);
+    outline:none;
+}
+
+button{
+    width:100%;
+    padding:16px;
+    background:linear-gradient(90deg,#007bff,#00c6ff);
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+button:hover{
+    background:linear-gradient(90deg,#0056b3,#007bff);
+    transform:translateY(-2px);
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:30px 15px;
+    font-size:14px;
+    color:#555;
+    margin-top:30px;
+    border-top:1px solid #ddd;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .hero h1{font-size:2rem;}
+    .hero p{font-size:1rem;}
+    .container{padding:25px;margin:20px;}
+}
+@media(max-width:480px){
+    nav a{margin:5px 8px;font-size:13px;}
+    .hero h1{font-size:1.7rem;}
+    form input, form textarea{font-size:14px;padding:12px;}
+}
+</style>
+</head>
+
+<body>
+<nav>
+<a href="/">Home</a>
+<a href="article.html">Article</a>
+<a href="post.html">Blog</a>
+<a href="sylhet.html">Sylhet</a>
+<a href="debate.html">debate topics</a>
+<a href="what-is-debate.html">What is Debate?</a>
+<a href="about.html">Future Plan</a>
+</nav>
+
+<div class="hero">
+<h1>Debate Documentation 2026</h1>
+<p>Submit your debate experiences, tips, and tricks. Selected submissions may be published & certified by DebateSylhetBD.</p>
+</div>
+
+<div class="container">
+<div class="info"> Share your debate experiences to help students learn. Selected entries will be featured and receive certificates.</div>
+
+<form action="https://script.google.com/macros/s/AKfycbz_VlORpW9S9GGbr_-0Er-94QUvWgRYAmVToN8q1Kf954w_dGR8XM1edZFcpWscbob6/exec" method="POST">
+<input type="text" name="name" placeholder="Full Name" required>
+<input type="email" name="email" placeholder="Email Address">
+<input type="text" name="school" placeholder="School / College">
+<textarea name="experience" rows="6" placeholder="Write your debate experience..." required></textarea>
+<button type="submit">Submit Experience</button>
+</form>
+</div>
+
+<footer>
+ 2026 DebateSylhetBD | Sylhet, Bangladesh | documentation submission 2026
+</footer>
+
+</body>
+</html>
