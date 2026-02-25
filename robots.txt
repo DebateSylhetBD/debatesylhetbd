@@ -2,8 +2,10 @@ User-agent: *
 Allow: /
 disallow: /admin.html
 sitemap: https://debatesylhetbd.onrender.com/sitemap_index.xml
-Sitemap: https://debatesylhetbd.onrender.com/sitemap.xml
-Sitemap: https://debatesylhetbd.onrender.com/sitemap-article.xml
+sitemap: https://debatesylhetbd.onrender.com/sitemap.xml
+sitemap: https://debatesylhetbd.onrender.com/sitemap-article.xml
+sitemap: https://debatesylhetbd.onrender.com/news-sitemap.xml
+
 
 # Googlebot specific rules
 User-agent: Googlebot
@@ -13,4 +15,5 @@ Crawl-delay: 1
 # Bingbot rules
 User-agent: bingbot
 Allow: /
+
 
