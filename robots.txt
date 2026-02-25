@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
-disallow: /admin.html
+disallow: /id3344/admin/dashboard/
 sitemap: https://debatesylhetbd.onrender.com/sitemap_index.xml
 sitemap: https://debatesylhetbd.onrender.com/sitemap.xml
 sitemap: https://debatesylhetbd.onrender.com/sitemap-article.xml
@@ -15,5 +15,6 @@ Crawl-delay: 1
 # Bingbot rules
 User-agent: bingbot
 Allow: /
+
 
 
