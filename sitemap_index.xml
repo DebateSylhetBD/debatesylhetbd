@@ -4,13 +4,21 @@
   <!-- Main Pages Sitemap -->
   <sitemap>
     <loc>https://debatesylhetbd.onrender.com/sitemap.xml</loc>
-    <lastmod>2026-02-16</lastmod>
+    <lastmod>2026-02-26</lastmod>
   </sitemap>
 
   <!-- Article Sitemap (District Pages) -->
   <sitemap>
     <loc>https://debatesylhetbd.onrender.com/article-sitemap.xml</loc>
-    <lastmod>2026-02-16</lastmod>
+    <lastmod>2026-02-26</lastmod>
   </sitemap>
+
+
+  <!-- 30 debate topics pages -->
+  <sitemap>
+    <loc>https://debatesylhetbd.onrender.com/news-sitemap.xml</loc>
+    <lastmod>2026-02-26</lastmod>
+  </sitemap>
+  
 
 </sitemapindex>
