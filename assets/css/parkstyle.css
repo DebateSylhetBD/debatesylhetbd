@@ -182,3 +182,74 @@ footer p {
         font-size: 1.4rem;
     }
 }
+/* --- Universal Related Topics Section --- */
+.related {
+    margin-top: 50px;
+    padding: 30px;
+    background-color: #ffffff;
+    border: 1px solid #e1e8ed;
+    border-radius: 12px;
+    clear: both;
+}
+
+.related h3 {
+    font-size: 1.4rem;
+    color: var(--sylhet-green, #006a4e); /* Uses variable or falls back to Green */
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--gold, #bf941a);
+}
+
+.related ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+}
+
+.related ul li {
+    margin: 0;
+    padding: 0;
+}
+
+.related ul li::before {
+    display: none; /* Removes any default bullets */
+}
+
+.related ul li a {
+    display: block;
+    padding: 12px 18px;
+    background: #f8f9fa;
+    color: #333;
+    text-decoration: none;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    height: 100%; /* Ensures all boxes in a row are same height */
+    line-height: 1.4;
+}
+
+/* SEO Link Interaction */
+.related ul li a:hover {
+    background-color: var(--sylhet-green, #006a4e);
+    color: #ffffff !important;
+    border-color: var(--sylhet-green, #006a4e);
+    transform: translateX(5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+    .related {
+        padding: 20px;
+    }
+    .related ul {
+        grid-template-columns: 1fr; /* Stacks links on mobile */
+    }
+    .related ul li a {
+        font-size: 0.95rem;
+    }
+}
