@@ -253,3 +253,235 @@ footer p {
         font-size: 0.95rem;
     }
 }
+/* Project: DebateSylhetBD - Ultra Level UI
+   Focus: Glassmorphism, Modern Accessibility, Smooth Transitions
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #006a4e 0%, #004d39 100%);
+    --accent-gold: #d4af37;
+    --text-dark: #1a202c;
+    --text-muted: #4a5568;
+    --bg-light: #f7fafc;
+    --white: #ffffff;
+    --glass-bg: rgba(255, 255, 255, 0.95);
+    --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Hind Siliguri', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.7;
+    overflow-x: hidden;
+}
+
+/* --- Header & Hero Section --- */
+header {
+    background: var(--primary-gradient);
+    color: var(--white);
+    padding: 80px 20px;
+    text-align: center;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+    position: relative;
+    border-bottom: 4px solid var(--accent-gold);
+}
+
+header h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+/* --- Navigation / Breadcrumbs --- */
+nav {
+    max-width: 1000px;
+    margin: -30px auto 40px;
+    padding: 15px 30px;
+    background: var(--white);
+    border-radius: 50px;
+    box-shadow: var(--card-shadow);
+    position: relative;
+    z-index: 10;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+nav a {
+    color: #006a4e;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+nav a:hover {
+    color: var(--accent-gold);
+}
+
+/* --- Main Content Container --- */
+.container {
+    max-width: 1000px;
+    margin: 0 auto 60px;
+    padding: 20px;
+}
+
+main section h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 40px;
+    position: relative;
+    color: #004d39;
+}
+
+main section h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--accent-gold);
+    margin: 10px auto;
+    border-radius: 2px;
+}
+
+/* --- Class Group Cards --- */
+.class-group {
+    background: var(--glass-bg);
+    margin-bottom: 30px;
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+}
+
+.class-group:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+}
+
+.class-group h3 {
+    font-size: 1.5rem;
+    color: #006a4e;
+    margin-bottom: 25px;
+    padding-left: 15px;
+    border-left: 5px solid var(--accent-gold);
+}
+
+/* --- Topic Lists --- */
+ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
+}
+
+ul li {
+    background: #fdfdfd;
+    padding: 15px 20px;
+    border-radius: 12px;
+    border: 1px solid #edf2f7;
+    transition: var(--transition);
+}
+
+ul li:hover {
+    background: #fff;
+    border-color: #006a4e;
+    transform: scale(1.02);
+}
+
+ul li a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+    display: block;
+    transition: var(--transition);
+}
+
+ul li:hover a {
+    color: #006a4e;
+}
+
+/* --- FAQ Section --- */
+.faq {
+    margin-top: 60px;
+    background: #e6f3ef;
+    padding: 40px;
+    border-radius: 24px;
+    border-left: 8px solid var(--accent-gold);
+}
+
+.faq h3 {
+    margin-bottom: 20px;
+    color: #004d39;
+}
+
+.faq div h4 {
+    color: #006a4e;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.faq div p {
+    color: var(--text-muted);
+}
+
+/* --- Footer --- */
+footer {
+    background: #1a202c;
+    color: #a0aec0;
+    padding: 60px 20px;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+footer p {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    header {
+        padding: 60px 20px;
+    }
+    
+    .class-group {
+        padding: 25px;
+    }
+    
+    ul {
+        grid-template-columns: 1fr;
+    }
+    
+    nav {
+        margin: -20px 20px 30px;
+        padding: 10px 20px;
+    }
+}
+
+/* --- Micro-Interactions --- */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #cbd5e0, transparent);
+    margin: 40px 0;
+}
