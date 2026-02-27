@@ -25,6 +25,13 @@
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+      
+  <url>
+    <loc>https://debatesylhetbd.onrender.com/topics-list/different-types-of-debate-topics/</loc>
+    <lastmod>2026-02-27T14:47:37+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
 
   <url>
     <loc>https://debatesylhetbd.onrender.com/detail.html</loc>
@@ -166,5 +173,6 @@
   </url>
 
 </urlset>
+
 
 
