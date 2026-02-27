@@ -1,0 +1,184 @@
+/* Project: DebateSylhetBD 
+    Author: Rizwan Rahim Chowdhury
+    Theme: Modern, Clean, and Educational
+*/
+
+/* --- ১. গ্লোবাল স্টাইল ও ফন্ট --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #006a4e; /* বাংলাদেশ গ্রিন - সিলেটের ঐতিহ্যের সাথে সামঞ্জস্যপূর্ণ */
+    --secondary-color: #f8f9fa;
+    --accent-color: #bf941a;
+    --text-dark: #2c3e50;
+    --text-light: #555;
+    --white: #ffffff;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, 'Hind Siliguri', 'SolimanLipi', sans-serif;
+    background-color: var(--secondary-color);
+    color: var(--text-dark);
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --- ২. কন্টেইনার ও লেআউট --- */
+.container, main {
+    max-width: 900px;
+    margin: 20px auto;
+    background: var(--white);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* --- ৩. হেডার ও নেভিগেশন --- */
+header {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 40px 20px;
+    text-align: center;
+    border-bottom: 5px solid var(--accent-color);
+}
+
+header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+nav {
+    background: #e9ecef;
+    padding: 12px 20px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    font-size: 0.95rem;
+}
+
+nav a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* --- ৪. কন্টেন্ট স্টাইলিং (Debate Content) --- */
+article h1 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+article h3 {
+    margin: 25px 0 15px;
+    color: var(--accent-color);
+}
+
+article p {
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+ul {
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+ul li {
+    margin-bottom: 8px;
+}
+
+/* --- ৫. FAQ সেকশন (Rich Result Friendly) --- */
+.faq {
+    margin-top: 40px;
+    background: #fffdf5;
+    border: 1px solid #f0e6cc;
+    padding: 25px;
+    border-radius: 8px;
+}
+
+.faq h4 {
+    color: var(--primary-color);
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+/* --- ৬. রিলেটেড টপিকস লিঙ্কস --- */
+.related-topics {
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 2px solid #eee;
+}
+
+.related-topics h3 {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+}
+
+.related-topics ul {
+    list-style: none;
+    margin-left: 0;
+}
+
+.related-topics ul li {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.related-topics ul li a {
+    display: inline-block;
+    padding: 8px 15px;
+    background: var(--secondary-color);
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    text-decoration: none;
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    transition: 0.3s ease;
+}
+
+.related-topics ul li a:hover {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+/* --- ৭. ফুটার --- */
+footer {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #1a1a1a;
+    color: #999;
+    margin-top: 60px;
+    font-size: 0.85rem;
+}
+
+footer p {
+    margin-bottom: 5px;
+}
+
+/* --- ৮. মোবাইল রেসপন্সিভনেস --- */
+@media (max-width: 768px) {
+    .container, main {
+        width: 95%;
+        padding: 20px;
+    }
+    
+    header h1 {
+        font-size: 1.6rem;
+    }
+    
+    article h1 {
+        font-size: 1.4rem;
+    }
+}
