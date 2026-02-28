@@ -1,3 +1,175 @@
+/* =========================================
+   Variables & Reset
+   ========================================= */
+:root {
+    --primary-color: #0c6b37; /* School Green */
+    --secondary-color: #f7941d; /* Energetic Orange/Gold */
+    --text-color: #333333;
+    --bg-color: #fcfcfc;
+    --white: #ffffff;
+    --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    line-height: 1.6;
+}
+
+/* =========================================
+   Typography & Utilities
+   ========================================= */
+h1, h2, h3 { margin-bottom: 15px; color: var(--primary-color); }
+p { margin-bottom: 15px; font-size: 1.05rem; }
+a { text-decoration: none; color: var(--primary-color); transition: 0.3s; }
+a:hover { color: var(--secondary-color); }
+
+.rounded-img { border-radius: 12px; }
+.shadow { box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+.full-width-img { width: 100%; height: auto; display: block; }
+.image-caption { text-align: center; font-style: italic; color: #666; margin-top: 10px; }
+
+/* =========================================
+   Header 
+   ========================================= */
+.main-header {
+    background-color: var(--white);
+    padding: 15px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.logo-area { display: flex; align-items: center; gap: 15px; }
+.school-logo { width: 70px; height: 70px; object-fit: contain; }
+.school-titles h1 { font-size: 1.5rem; margin: 0; color: var(--primary-color); }
+.school-titles h2 { font-size: 1.1rem; margin: 0; color: var(--secondary-color); font-weight: normal; }
+
+.badge-img { width: 80px; height: 80px; object-fit: contain; }
+
+/* =========================================
+   Hero Section
+   ========================================= */
+.hero-banner { position: relative; width: 100%; height: 60vh; overflow: hidden; }
+.hero-img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+
+.hero-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: var(--white);
+    padding: 40px 20px 20px;
+    text-align: center;
+}
+.hero-overlay h2 { color: var(--white); font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+.hero-overlay p { font-size: 1.2rem; max-width: 800px; margin: 0 auto; }
+
+/* =========================================
+   Main Content Wrapper
+   ========================================= */
+.content-wrapper { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+section { margin-bottom: 60px; }
+section h2 { border-bottom: 3px solid var(--secondary-color); display: inline-block; padding-bottom: 5px; margin-bottom: 25px; }
+
+/* =========================================
+   About & Grids
+   ========================================= */
+.content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; }
+.content-img { width: 100%; height: 400px; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.15); }
+
+/* =========================================
+   Timeline
+   ========================================= */
+.timeline { border-left: 4px solid var(--primary-color); padding-left: 20px; margin-bottom: 40px; }
+.timeline-item { margin-bottom: 25px; position: relative; }
+.timeline-item::before {
+    content: ''; position: absolute; left: -29px; top: 5px; width: 14px; height: 14px;
+    background-color: var(--secondary-color); border-radius: 50%;
+}
+.timeline-item h3 { color: var(--secondary-color); margin-bottom: 5px; }
+
+/* =========================================
+   Gallery (Perfectly Cropped Images)
+   ========================================= */
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+.gallery-item { position: relative; border-radius: 10px; overflow: hidden; height: 250px; cursor: pointer; }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.gallery-item:hover img { transform: scale(1.1); }
+.gallery-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0; background: rgba(12, 107, 55, 0.85); color: #fff;
+    padding: 10px; text-align: center; font-weight: bold; transform: translateY(100%); transition: 0.3s ease;
+}
+.gallery-item:hover .gallery-overlay { transform: translateY(0); }
+
+/* =========================================
+   Admin & Contact
+   ========================================= */
+.admin-cards { display: flex; gap: 20px; flex-wrap: wrap; }
+.card {
+    flex: 1; min-width: 280px; background: var(--white); padding: 25px;
+    border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-top: 5px solid var(--primary-color);
+}
+.card .title { font-weight: bold; color: #555; }
+.card .phone a { font-size: 1.2rem; font-weight: bold; }
+
+.map-container { margin: 20px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.map-img { width: 100%; height: 400px; object-fit: cover; display: block; }
+
+.fb-btn {
+    display: inline-flex; align-items: center; gap: 10px; background-color: #1877F2; color: #fff;
+    padding: 12px 25px; border-radius: 30px; font-weight: bold; margin-top: 15px;
+}
+.fb-btn:hover { background-color: #0c5dc7; color: #fff; }
+
+/* =========================================
+   Footer & Dev Credit Box
+   ========================================= */
+.main-footer { background-color: var(--primary-color); color: var(--white); text-align: center; padding: 40px 20px; margin-top: 40px; }
+
+/* The Mini Credit Box exactly as requested */
+.dev-credit-box {
+    margin-top: 25px;
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: 1px solid rgba(255,255,255,0.2);
+    font-size: 0.9rem;
+}
+.dev-credit-box .dev-text { color: #ddd; margin-right: 5px; }
+.dev-credit-box .dev-link { color: var(--secondary-color); font-weight: bold; display: inline-flex; align-items: center; gap: 8px; }
+.dev-credit-box .dev-link:hover { color: #fff; }
+.dev-logo { width: 20px; height: 20px; object-fit: contain; }
+
+/* =========================================
+   Responsive Design
+   ========================================= */
+@media (max-width: 768px) {
+    .content-grid { grid-template-columns: 1fr; }
+    .header-container { flex-direction: column; text-align: center; }
+    .logo-area { flex-direction: column; }
+    .badge-img { margin-top: 15px; }
+    .hero-overlay h2 { font-size: 1.8rem; }
+      }
 
 /* Topics page */
 #search {
@@ -334,178 +506,4 @@ body {
     .hero-text h1 { font-size: 2rem; }
     .sticky-nav { top: 75px; }
 }
-
-/* =========================================
-   Variables & Reset
-   ========================================= */
-:root {
-    --primary-color: #0c6b37; /* School Green */
-    --secondary-color: #f7941d; /* Energetic Orange/Gold */
-    --text-color: #333333;
-    --bg-color: #fcfcfc;
-    --white: #ffffff;
-    --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: var(--font-main);
-    color: var(--text-color);
-    background-color: var(--bg-color);
-    line-height: 1.6;
-}
-
-/* =========================================
-   Typography & Utilities
-   ========================================= */
-h1, h2, h3 { margin-bottom: 15px; color: var(--primary-color); }
-p { margin-bottom: 15px; font-size: 1.05rem; }
-a { text-decoration: none; color: var(--primary-color); transition: 0.3s; }
-a:hover { color: var(--secondary-color); }
-
-.rounded-img { border-radius: 12px; }
-.shadow { box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-.full-width-img { width: 100%; height: auto; display: block; }
-.image-caption { text-align: center; font-style: italic; color: #666; margin-top: 10px; }
-
-/* =========================================
-   Header 
-   ========================================= */
-.main-header {
-    background-color: var(--white);
-    padding: 15px 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.header-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.logo-area { display: flex; align-items: center; gap: 15px; }
-.school-logo { width: 70px; height: 70px; object-fit: contain; }
-.school-titles h1 { font-size: 1.5rem; margin: 0; color: var(--primary-color); }
-.school-titles h2 { font-size: 1.1rem; margin: 0; color: var(--secondary-color); font-weight: normal; }
-
-.badge-img { width: 80px; height: 80px; object-fit: contain; }
-
-/* =========================================
-   Hero Section
-   ========================================= */
-.hero-banner { position: relative; width: 100%; height: 60vh; overflow: hidden; }
-.hero-img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
-
-.hero-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: linear-gradient(transparent, rgba(0,0,0,0.8));
-    color: var(--white);
-    padding: 40px 20px 20px;
-    text-align: center;
-}
-.hero-overlay h2 { color: var(--white); font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-.hero-overlay p { font-size: 1.2rem; max-width: 800px; margin: 0 auto; }
-
-/* =========================================
-   Main Content Wrapper
-   ========================================= */
-.content-wrapper { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-section { margin-bottom: 60px; }
-section h2 { border-bottom: 3px solid var(--secondary-color); display: inline-block; padding-bottom: 5px; margin-bottom: 25px; }
-
-/* =========================================
-   About & Grids
-   ========================================= */
-.content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; }
-.content-img { width: 100%; height: 400px; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.15); }
-
-/* =========================================
-   Timeline
-   ========================================= */
-.timeline { border-left: 4px solid var(--primary-color); padding-left: 20px; margin-bottom: 40px; }
-.timeline-item { margin-bottom: 25px; position: relative; }
-.timeline-item::before {
-    content: ''; position: absolute; left: -29px; top: 5px; width: 14px; height: 14px;
-    background-color: var(--secondary-color); border-radius: 50%;
-}
-.timeline-item h3 { color: var(--secondary-color); margin-bottom: 5px; }
-
-/* =========================================
-   Gallery (Perfectly Cropped Images)
-   ========================================= */
-.gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-.gallery-item { position: relative; border-radius: 10px; overflow: hidden; height: 250px; cursor: pointer; }
-.gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-.gallery-item:hover img { transform: scale(1.1); }
-.gallery-overlay {
-    position: absolute; bottom: 0; left: 0; right: 0; background: rgba(12, 107, 55, 0.85); color: #fff;
-    padding: 10px; text-align: center; font-weight: bold; transform: translateY(100%); transition: 0.3s ease;
-}
-.gallery-item:hover .gallery-overlay { transform: translateY(0); }
-
-/* =========================================
-   Admin & Contact
-   ========================================= */
-.admin-cards { display: flex; gap: 20px; flex-wrap: wrap; }
-.card {
-    flex: 1; min-width: 280px; background: var(--white); padding: 25px;
-    border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-top: 5px solid var(--primary-color);
-}
-.card .title { font-weight: bold; color: #555; }
-.card .phone a { font-size: 1.2rem; font-weight: bold; }
-
-.map-container { margin: 20px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-.map-img { width: 100%; height: 400px; object-fit: cover; display: block; }
-
-.fb-btn {
-    display: inline-flex; align-items: center; gap: 10px; background-color: #1877F2; color: #fff;
-    padding: 12px 25px; border-radius: 30px; font-weight: bold; margin-top: 15px;
-}
-.fb-btn:hover { background-color: #0c5dc7; color: #fff; }
-
-/* =========================================
-   Footer & Dev Credit Box
-   ========================================= */
-.main-footer { background-color: var(--primary-color); color: var(--white); text-align: center; padding: 40px 20px; margin-top: 40px; }
-
-/* The Mini Credit Box exactly as requested */
-.dev-credit-box {
-    margin-top: 25px;
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 10px 20px;
-    border-radius: 50px;
-    border: 1px solid rgba(255,255,255,0.2);
-    font-size: 0.9rem;
-}
-.dev-credit-box .dev-text { color: #ddd; margin-right: 5px; }
-.dev-credit-box .dev-link { color: var(--secondary-color); font-weight: bold; display: inline-flex; align-items: center; gap: 8px; }
-.dev-credit-box .dev-link:hover { color: #fff; }
-.dev-logo { width: 20px; height: 20px; object-fit: contain; }
-
-/* =========================================
-   Responsive Design
-   ========================================= */
-@media (max-width: 768px) {
-    .content-grid { grid-template-columns: 1fr; }
-    .header-container { flex-direction: column; text-align: center; }
-    .logo-area { flex-direction: column; }
-    .badge-img { margin-top: 15px; }
-    .hero-overlay h2 { font-size: 1.8rem; }
-}
-
 
