@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign up for DebateSylhetBD Community">
+    <title>Sign Up - DebateSylhetBD</title>
+    <link rel="stylesheet" href="community.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Create an Account</h2>
+        <form id="signupForm">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="username" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+            <p id="msg" class="error"></p>
+        </form>
+        <p style="text-align:center; margin-top:15px;">Already have an account? <a href="login.html">Log in</a></p>
+    </div>
+
+    <script>
+        const API_URL = "https://deshpay-api.onrender.com/api";
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
+            
+            const res = await fetch(`${API_URL}/signup`, {
+                method: "POST", headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({username: u, password: p})
+            });
+            const data = await res.json();
+            if(res.ok) { alert("Success! Please log in."); window.location.href="login.html"; }
+            else { document.getElementById('msg').innerText = data.error; }
+        });
+    </script>
+</body>
+</html>
