@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="author" content="RIZWAN RAHIM CHOWDHURY, NADIA JANNAT PINKY">
-    <title>DebateSylhetBD | ডিবেটসিলেটবিডি - Bangla Debate Topics & History</title>
+    <title>DebateSylhetBD | ডিবেটসিলেটবিডি-Bangla Debate Topics & educational resources</title>
     <meta name='dmca-site-verification' content='Q3JCM29zbUpwVEhrWVNMNlR0d2w4c1hxdDJlMlcxeHhvQzFFdjVCelo4VT01' />
     <meta name="description" content="DebateSylhetBD: বাংলা বিতর্ক বিষয় ও বাংলাদেশের ইতিহাসের গুরুত্বপূর্ণ টপিক। Free educational resources, debate topics in bangla, student debates, and history insights.">
     <meta name="keywords" content="debate sylhet bd, bangla debate topics, bangladesh history in bangla, school debate topics, debate topics in bangla, pakshe bipakshe debate, student debate preparation, বাংলা বিতর্ক বিষয়, educational resources bd">
@@ -73,6 +73,87 @@
       ]
     }
     </script>
+    <style>
+    /* --- Ultra-Level Button Framework --- */
+    :root {
+        --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+        --secondary-color: #1e293b;
+        --community-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        --text-light: #ffffff;
+        --shadow-standard: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lift: 0 10px 15px -3px rgba(0, 0, 0, 0.15);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .auth-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-width: 350px;
+        margin: 20px auto;
+        padding: 10px;
+        font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    }
+
+    .btn {
+        display: block;
+        text-align: center;
+        padding: 16px 24px;
+        font-size: 16px;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 12px;
+        transition: var(--transition);
+        box-shadow: var(--shadow-standard);
+        letter-spacing: 0.5px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+    }
+
+    /* 1. Log In Button (Indigo/Blue Gradient) */
+    .btn-primary {
+        background: var(--primary-gradient);
+        color: var(--text-light);
+    }
+
+    /* 2. Sign Up Button (Professional Dark Slate) */
+    .btn-secondary {
+        background: var(--secondary-color);
+        color: var(--text-light);
+    }
+
+    /* 3. Community Button (Emerald/Green Gradient) */
+    .btn-community {
+        background: var(--community-gradient);
+        color: var(--text-light);
+    }
+
+    /* Hover & Interaction Effects (Optimized for Touch) */
+    .btn:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: var(--shadow-lift);
+        filter: brightness(1.1);
+        text-decoration: none;
+    }
+
+    .btn:active {
+        transform: translateY(0px) scale(0.98);
+        filter: brightness(0.9);
+    }
+
+    /* Mobile Responsive Tweak */
+    @media (max-width: 480px) {
+        .auth-buttons {
+            max-width: 100%;
+            padding: 20px;
+        }
+        .btn {
+            padding: 18px; /* Larger tap area for Android tablets/phones */
+            font-size: 17px;
+        }
+    }
+        </style>
+    
 </head>
 <body>
 
@@ -102,7 +183,13 @@
     <div class="watermark">
         <img src="logo.png" alt="Watermark Background" loading="lazy">
     </div>
-
+    
+<div class="auth-buttons">
+    <a href="login.html" class="btn btn-primary">Log In</a>
+    <a href="signup.html" class="btn btn-secondary">Sign Up</a>
+    <a href="community/index.html" class="btn btn-community">Go to Community</a>
+</div>
+    
     <main class="main-content">
         
         <section class="hero-section container">
