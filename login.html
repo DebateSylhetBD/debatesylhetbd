@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login to DebateSylhetBD">
+    <title>Login - DebateSylhetBD</title>
+    <link rel="stylesheet" href="community.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome Back</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="username" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Log In</button>
+            <p id="msg" class="error"></p>
+        </form>
+    </div>
+
+    <script>
+        const API_URL = "https://deshpay-api.onrender.com/api";
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
+            
+            const res = await fetch(`${API_URL}/login`, {
+                method: "POST", headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({username: u, password: p})
+            });
+            const data = await res.json();
+            if(res.ok) {
+                localStorage.setItem("user", data.username); // Save user to memory
+                window.location.href = "community/index.html"; // Redirect
+            } else { 
+                document.getElementById('msg').innerText = data.error; 
+            }
+        });
+    </script>
+</body>
+</html>
