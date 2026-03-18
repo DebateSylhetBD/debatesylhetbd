@@ -3,70 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community - DebateSylhetBD</title>
+    <title>Community | DebateSylhetBD</title>
     <link rel="stylesheet" href="https://debatesylhetbd.onrender.com/community.css">
-  <link rel="canonical" href="https://debatesylhetbd.onrender.com/community/">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .badge-verified { color: #1d9bf0; margin-left: 4px; }
+        .post-img { width: 100%; border-radius: 12px; margin-top: 10px; border: 1px solid #eee; }
+        .avatar-main { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+        .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:99; align-items:center; justify-content:center; }
+        .modal-card { background:white; padding:25px; border-radius:15px; width:90%; max-width:400px; }
+        .hidden { display: none !important; }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Community Feed</h2>
-        <p>Welcome, <span id="currentUser" style="font-weight:bold;"></span>! <a href="#" onclick="logout()" style="float:right; color:red;">Logout</a></p>
-        
-        <form id="postForm" style="margin-top:20px; margin-bottom:30px;">
-            <div class="form-group">
-                <textarea id="postContent" rows="3" placeholder="What's on your mind?" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Post</button>
-        </form>
 
-        <div id="postsFeed">Loading posts...</div>
+<div class="layout-wrapper" style="display:flex; max-width:1000px; margin:auto; gap:20px; padding:15px;">
+    
+    <div class="sidebar" style="width:250px;">
+        <div class="container" style="padding:20px;">
+            <h2 style="text-align:left; font-size:20px;">DebateBD</h2>
+            <div id="userMenu" class="hidden">
+                <img id="myPic" class="avatar-main" src="">
+                <p><strong id="myName"></strong> <span id="myBadge"></span></p>
+                <hr>
+                <button onclick="openModal('picModal')" class="btn btn-secondary" style="font-size:12px; padding:5px;">Change Pic</button>
+                <button onclick="openModal('verifyModal')" class="btn btn-community" style="font-size:12px; padding:5px; margin-top:5px;">Get Verified</button>
+                <button onclick="logout()" class="btn btn-primary" style="background:red; margin-top:10px;">Logout</button>
+            </div>
+            <div id="guestMenu">
+                <p>Login to post and follow!</p>
+                <a href="../login.html" class="btn btn-primary">Login</a>
+            </div>
+        </div>
     </div>
 
-    <script>
-        const API_URL = "https://deshpay-api.onrender.com/api";
-        const currentUser = localStorage.getItem("user");
+    <div class="feed" style="flex:1;">
+        <div id="postArea" class="container hidden" style="margin-bottom:20px;">
+            <form id="postForm">
+                <textarea id="pContent" placeholder="What's the debate today?" required style="width:100%; border:none; outline:none; font-size:18px;"></textarea>
+                <input type="text" id="pImg" placeholder="Image URL (optional)" style="width:100%; margin-top:10px; padding:8px; border:1px solid #ddd; border-radius:8px;">
+                <button type="submit" class="btn btn-primary" style="width:auto; float:right; margin-top:10px;">Post</button>
+                <div style="clear:both;"></div>
+            </form>
+        </div>
 
-        // 1. Check Login
-        if(!currentUser) {
-            window.location.href = "../login.html"; // Kick out if not logged in
-        } else {
-            document.getElementById('currentUser').innerText = currentUser;
-            loadPosts();
-        }
+        <div id="feedContent">Loading...</div>
+    </div>
+</div>
 
-        // 2. Load Posts
-        async function loadPosts() {
-            const res = await fetch(`${API_URL}/posts`);
-            const posts = await res.json();
-            const feed = document.getElementById('postsFeed');
-            feed.innerHTML = "";
-            posts.forEach(post => {
-                feed.innerHTML += `
-                    <div class="post-card">
-                        <a href="../profile.html?u=${post.username}" class="post-author">@${post.username}</a>
-                        <p style="font-size:12px; color:gray;">${new Date(post.created_at).toLocaleString()}</p>
-                        <p style="margin-top:10px;">${post.content}</p>
+<div id="picModal" class="modal-overlay">
+    <div class="modal-card">
+        <h3>Update Profile Picture</h3>
+        <input type="text" id="newPicUrl" placeholder="Paste Image URL here" class="form-group" style="width:100%; padding:10px; margin:15px 0;">
+        <button onclick="updatePic()" class="btn btn-primary">Save</button>
+        <button onclick="closeModals()" class="btn btn-secondary">Cancel</button>
+    </div>
+</div>
+
+<div id="verifyModal" class="modal-overlay">
+    <div class="modal-card">
+        <h3>Apply for Verification</h3>
+        <input type="text" id="vName" placeholder="Full Name" style="width:100%; margin-bottom:10px; padding:8px;">
+        <input type="email" id="vEmail" placeholder="Email" style="width:100%; margin-bottom:10px; padding:8px;">
+        <input type="tel" id="vPhone" placeholder="Mobile" style="width:100%; margin-bottom:10px; padding:8px;">
+        <button onclick="applyVerify()" class="btn btn-community">Submit to Rahim</button>
+        <button onclick="closeModals()" class="btn btn-secondary">Cancel</button>
+    </div>
+</div>
+
+<script>
+    const API = "https://deshpay-api.onrender.com/api";
+    const user = localStorage.getItem("user");
+
+    function openModal(id){ document.getElementById(id).style.display='flex'; }
+    function closeModals(){ document.querySelectorAll('.modal-overlay').forEach(m => m.style.display='none'); }
+
+    if(user){
+        document.getElementById('userMenu').classList.remove('hidden');
+        document.getElementById('postArea').classList.remove('hidden');
+        document.getElementById('guestMenu').classList.add('hidden');
+        document.getElementById('myName').innerText = user;
+        document.getElementById('myPic').src = localStorage.getItem("pic") || "";
+    }
+
+    async function loadPosts() {
+        const res = await fetch(`${API}/posts`);
+        const posts = await res.json();
+        const feed = document.getElementById('feedContent');
+        feed.innerHTML = "";
+        posts.forEach(p => {
+            const badge = p.is_verified ? '<i class="fa-solid fa-circle-check badge-verified"></i>' : '';
+            const img = p.image_url ? `<img src="${p.image_url}" class="post-img">` : '';
+            feed.innerHTML += `
+                <div class="post-card container" style="margin-bottom:15px;">
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <img src="${p.profile_pic}" class="avatar-main" style="width:40px; height:40px;">
+                        <div>
+                            <strong>@${p.username}</strong> ${badge}
+                            <div style="font-size:11px; color:gray;">${new Date(p.created_at).toLocaleString()}</div>
+                        </div>
+                        ${user && user !== p.username ? `<button onclick="follow('${p.username}')" style="margin-left:auto; font-size:12px;" class="btn btn-secondary">Follow</button>` : ''}
                     </div>
-                `;
-            });
-        }
-
-        // 3. Create Post
-        document.getElementById('postForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const content = document.getElementById('postContent').value;
-            await fetch(`${API_URL}/posts`, {
-                method: "POST", headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({username: currentUser, content: content})
-            });
-            document.getElementById('postContent').value = "";
-            loadPosts(); // Refresh feed
+                    <p style="margin-top:10px;">${p.content}</p>
+                    ${img}
+                </div>
+            `;
         });
+    }
 
-        function logout() {
-            localStorage.removeItem("user");
-            window.location.href = "../login.html";
-        }
-    </script>
+    document.getElementById('postForm').onsubmit = async (e) => {
+        e.preventDefault();
+        await fetch(`${API}/posts`, {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username: user, content: document.getElementById('pContent').value, image_url: document.getElementById('pImg').value})
+        });
+        location.reload();
+    };
+
+    async function updatePic() {
+        const url = document.getElementById('newPicUrl').value;
+        await fetch(`${API}/update-pic`, {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username: user, url: url})
+        });
+        localStorage.setItem("pic", url);
+        location.reload();
+    }
+
+    async function applyVerify() {
+        await fetch(`${API}/verify-apply`, {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username: user, name: document.getElementById('vName').value, email: document.getElementById('vEmail').value, mobile: document.getElementById('vPhone').value})
+        });
+        alert("Applied! Rahim will check it.");
+        closeModals();
+    }
+
+    async function follow(target) {
+        await fetch(`${API}/follow`, {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({follower: user, following: target})
+        });
+        alert("Following " + target);
+    }
+
+    function logout() { localStorage.clear(); location.reload(); }
+    loadPosts();
+</script>
 </body>
 </html>
