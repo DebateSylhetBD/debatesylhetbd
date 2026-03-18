@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="community.css">
+</head>
+<body>
+    <div class="container">
+        <a href="community/index.html">← Back to Community</a>
+        <h2 id="profileName" style="margin-top: 20px;">Loading Profile...</h2>
+        <p style="text-align:center; color:gray;" id="joinDate"></p>
+        
+        <hr style="margin: 20px 0; border:0; border-top:1px solid #ccc;">
+        <h3 style="margin-bottom:15px;">User Posts</h3>
+        <div id="userPosts"></div>
+    </div>
+
+    <script>
+        const API_URL = "https://deshpay-api.onrender.com/api";
+        
+        // Extract '?u=username' from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const targetUser = urlParams.get('u');
+
+        async function loadProfile() {
+            if(!targetUser) {
+                document.getElementById('profileName').innerText = "User not found";
+                return;
+            }
+
+            const res = await fetch(`${API_URL}/profile/${targetUser}`);
+            if(!res.ok) {
+                document.getElementById('profileName').innerText = "User not found";
+                return;
+            }
+
+            const data = await res.json();
+            document.getElementById('profileName').innerText = `@${data.profile.username}`;
+            document.getElementById('joinDate').innerText = `Joined: ${new Date(data.profile.created_at).toLocaleDateString()}`;
+
+            const postsDiv = document.getElementById('userPosts');
+            if(data.posts.length === 0) {
+                postsDiv.innerHTML = "<p>This user hasn't posted anything yet.</p>";
+            } else {
+                data.posts.forEach(post => {
+                    postsDiv.innerHTML += `
+                        <div class="post-card">
+                            <p style="font-size:12px; color:gray;">${new Date(post.created_at).toLocaleString()}</p>
+                            <p style="margin-top:10px;">${post.content}</p>
+                        </div>
+                    `;
+                });
+            }
+        }
+        loadProfile();
+    </script>
+</body>
+</html>
