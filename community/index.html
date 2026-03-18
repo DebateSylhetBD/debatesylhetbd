@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - DebateSylhetBD</title>
+    <link rel="stylesheet" href="https://debatesylhetbd.onrender.com/community.css">
+  <link rel="canonical" href="https://debatesylhetbd.onrender.com/community/">
+</head>
+<body>
+    <div class="container">
+        <h2>Community Feed</h2>
+        <p>Welcome, <span id="currentUser" style="font-weight:bold;"></span>! <a href="#" onclick="logout()" style="float:right; color:red;">Logout</a></p>
+        
+        <form id="postForm" style="margin-top:20px; margin-bottom:30px;">
+            <div class="form-group">
+                <textarea id="postContent" rows="3" placeholder="What's on your mind?" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Post</button>
+        </form>
+
+        <div id="postsFeed">Loading posts...</div>
+    </div>
+
+    <script>
+        const API_URL = "https://deshpay-api.onrender.com/api";
+        const currentUser = localStorage.getItem("user");
+
+        // 1. Check Login
+        if(!currentUser) {
+            window.location.href = "../login.html"; // Kick out if not logged in
+        } else {
+            document.getElementById('currentUser').innerText = currentUser;
+            loadPosts();
+        }
+
+        // 2. Load Posts
+        async function loadPosts() {
+            const res = await fetch(`${API_URL}/posts`);
+            const posts = await res.json();
+            const feed = document.getElementById('postsFeed');
+            feed.innerHTML = "";
+            posts.forEach(post => {
+                feed.innerHTML += `
+                    <div class="post-card">
+                        <a href="../profile.html?u=${post.username}" class="post-author">@${post.username}</a>
+                        <p style="font-size:12px; color:gray;">${new Date(post.created_at).toLocaleString()}</p>
+                        <p style="margin-top:10px;">${post.content}</p>
+                    </div>
+                `;
+            });
+        }
+
+        // 3. Create Post
+        document.getElementById('postForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const content = document.getElementById('postContent').value;
+            await fetch(`${API_URL}/posts`, {
+                method: "POST", headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({username: currentUser, content: content})
+            });
+            document.getElementById('postContent').value = "";
+            loadPosts(); // Refresh feed
+        });
+
+        function logout() {
+            localStorage.removeItem("user");
+            window.location.href = "../login.html";
+        }
+    </script>
+</body>
+</html>
