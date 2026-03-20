@@ -1,97 +1,109 @@
-// Mini Eid Mubarak Ad Banner - Internal CSS in JS
+// Mini-Cut Eid Mubarak Floating Banner
 (function() {
-    // Prevent duplicate banner
-    if (document.getElementById('eid-ad-banner')) return;
+    if (document.getElementById('eid-mini-banner')) return;
 
-    // Create style element
     const style = document.createElement('style');
     style.textContent = `
-    /* Mini responsive Eid Ad Banner */
-    #eid-ad-banner {
+    #eid-mini-banner {
         position: fixed;
         bottom: 20px;
         right: 20px;
-        width: 250px;
-        max-width: 90%;
-        background: #fff;
-        border-radius: 12px;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
         overflow: hidden;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.2);
         z-index: 9999;
-        font-family: 'Inter', sans-serif;
+        cursor: pointer;
+        transition: width 0.3s ease, height 0.3s ease, border-radius 0.3s ease;
         display: flex;
         align-items: center;
-        animation: slideIn 0.6s ease-out;
+        justify-content: center;
+        background: #fff;
     }
-    #eid-ad-banner a {
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-        color: inherit;
-        width: 100%;
-        position: relative;
+    #eid-mini-banner.expanded {
+        width: 250px;
+        height: 70px;
+        border-radius: 12px;
     }
-    #eid-ad-banner img {
+    #eid-mini-banner img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        transition: width 0.3s, height 0.3s, border-radius 0.3s;
+        margin: 5px;
+    }
+    #eid-mini-banner.expanded img {
         width: 70px;
         height: 70px;
-        object-fit: cover;
         border-radius: 8px;
-        margin: 10px;
+        margin: 0 10px 0 10px;
     }
-    #eid-ad-banner .eid-text {
-        flex: 1;
-        font-weight: 600;
+    #eid-mini-banner .eid-text {
+        display: none;
         font-size: 14px;
+        font-weight: 600;
         color: #1e293b;
-        margin-right: 10px;
+        margin-left: 5px;
     }
-    #eid-ad-banner .ad-close {
+    #eid-mini-banner.expanded .eid-text {
+        display: block;
+    }
+    #eid-mini-banner .ad-close {
         position: absolute;
-        top: 5px;
-        right: 5px;
+        top: 2px;
+        right: 2px;
         border: none;
         background: transparent;
         font-size: 18px;
         font-weight: bold;
-        cursor: pointer;
         color: #444;
+        cursor: pointer;
+        display: none;
     }
-    #eid-ad-banner .ad-close:hover {
-        color: #f00;
+    #eid-mini-banner.expanded .ad-close {
+        display: block;
     }
     @media (max-width: 480px) {
-        #eid-ad-banner {
+        #eid-mini-banner.expanded {
             width: 90%;
-            bottom: 15px;
-            right: 5%;
-        }
-        #eid-ad-banner img {
-            width: 60px;
             height: 60px;
-            margin: 8px;
+            right: 5%;
+            bottom: 15px;
         }
-        #eid-ad-banner .eid-text {
+        #eid-mini-banner.expanded img {
+            width: 50px;
+            height: 50px;
+        }
+        #eid-mini-banner .eid-text {
             font-size: 13px;
         }
-    }
-    @keyframes slideIn {
-        from { transform: translateY(100px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
     }
     `;
     document.head.appendChild(style);
 
-    // Create banner element
     const banner = document.createElement('div');
-    banner.id = 'eid-ad-banner';
+    banner.id = 'eid-mini-banner';
     banner.innerHTML = `
         <a href="https://www.facebook.com/share/1C9jDrJYtX/" target="_blank" title="Sadiya's Collection">
-            <img src="https://i.imgur.com/x25BCce.jpeg" alt="Sadiya's Collection - Eid Mubarak Banner">
-            <span class="eid-text">Eid Mubarak! 🎉</span>
-            <button class="ad-close" aria-label="Close Banner">&times;</button>
+            <img src="https://i.imgur.com/x25BCce.jpeg" alt="Sadiya's Collection - Eid Mubarak">
+            <span class="eid-text">Eid Mubarak! 🎉 Sadiya's Collection</span>
         </a>
+        <button class="ad-close" aria-label="Close Banner">&times;</button>
     `;
     document.body.appendChild(banner);
+
+    // Expand on hover or touch
+    banner.addEventListener('mouseenter', () => banner.classList.add('expanded'));
+    banner.addEventListener('mouseleave', () => banner.classList.remove('expanded'));
+
+    // For mobile tap toggle
+    banner.addEventListener('click', function(e) {
+        if (!banner.classList.contains('expanded') && e.target.tagName !== 'A' && e.target.tagName !== 'IMG') {
+            e.preventDefault();
+            banner.classList.add('expanded');
+        }
+    });
 
     // Close button functionality
     banner.querySelector('.ad-close').addEventListener('click', function(e){
