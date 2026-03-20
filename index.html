@@ -455,6 +455,38 @@
             }
         });
     </script>
+    <script>
+    // Create a hamburger button dynamically if it doesn't exist
+    const navContainer = document.querySelector('.nav-container');
+    const navLinks = document.querySelector('.nav-links');
+    
+    const menuBtn = document.createElement('button');
+    menuBtn.innerHTML = '☰';
+    menuBtn.style.cssText = 'background:none; border:none; font-size:1.8rem; color:#1e293b; cursor:pointer; display:none;';
+    menuBtn.classList.add('mobile-menu-btn');
+    
+    // Insert before nav-links
+    navContainer.insertBefore(menuBtn, navLinks);
+
+    // Media query logic via JS for the button display
+    function checkWidth() {
+        if (window.innerWidth <= 768) {
+            menuBtn.style.display = 'block';
+        } else {
+            menuBtn.style.display = 'none';
+            navLinks.classList.remove('active');
+        }
+    }
+    window.addEventListener('resize', checkWidth);
+    checkWidth();
+
+    // Toggle menu
+    menuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        menuBtn.innerHTML = navLinks.classList.contains('active') ? '✖' : '☰';
+    });
+</script>
+
     <script src="analytics.js" defer></script>
 </body>
 </html>
