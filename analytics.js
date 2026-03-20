@@ -87,7 +87,7 @@ banner.innerHTML = `
   <span class="lantern">🏮</span>
   <span class="lantern">🏮</span>
   <img src="https://debatesylhetbd.onrender.com/logo.png" alt="DebateSylhetBD Logo">
-  <div class="text">🌙 Ramadan Mubarak from DebateSylhetBD!</div>
+  <div class="text">🌙 Eid Mubarak from DebateSylhetBD!</div>
   <button class="close-btn" onclick="document.getElementById('ramadan-banner').style.display='none'">&times;</button>
 `;
 document.body.appendChild(banner);
