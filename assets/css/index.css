@@ -204,13 +204,51 @@ h1, h2, h3, h4 {
     margin: 0 auto 2.5rem;
 }
 
+/* 1. The Container */
 .button-group {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    max-width: 900px;
-    margin: 0 auto;
+  display: grid;
+  /* Creates 4 equal columns on desktop, 1 on mobile */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto; /* Centers the whole block */
+}
+
+/* 2. The Buttons */
+.button-group a, 
+.button-group button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 60px; /* Forces uniform height */
+  padding: 10px 15px;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 8px; /* Consistent rounded corners */
+  transition: all 0.3s ease;
+  font-size: 14px;
+  border: 2px solid transparent; /* Prevents jumping on hover */
+}
+
+/* 3. Handling Different Styles (Outline vs Filled) */
+.btn-filled {
+  color: white;
+  /* Background color should be set individually or via class */
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid #6366f1; /* Example purple border */
+  color: #6366f1;
+}
+
+/* 4. Hover Effect for Polish */
+.button-group a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  filter: brightness(1.1);
 }
 
 /* Button Enhancements for the dynamically injected ones */
