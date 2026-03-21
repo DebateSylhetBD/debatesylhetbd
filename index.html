@@ -73,87 +73,6 @@
       ]
     }
     </script>
-    <style>
-    /* --- Ultra-Level Button Framework --- */
-    :root {
-        --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
-        --secondary-color: #1e293b;
-        --community-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        --text-light: #ffffff;
-        --shadow-standard: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        --shadow-lift: 0 10px 15px -3px rgba(0, 0, 0, 0.15);
-        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .auth-buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        max-width: 350px;
-        margin: 20px auto;
-        padding: 10px;
-        font-family: 'Inter', -apple-system, system-ui, sans-serif;
-    }
-
-    .btn {
-        display: block;
-        text-align: center;
-        padding: 16px 24px;
-        font-size: 16px;
-        font-weight: 600;
-        text-decoration: none;
-        border-radius: 12px;
-        transition: var(--transition);
-        box-shadow: var(--shadow-standard);
-        letter-spacing: 0.5px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        cursor: pointer;
-    }
-
-    /* 1. Log In Button (Indigo/Blue Gradient) */
-    .btn-primary {
-        background: var(--primary-gradient);
-        color: var(--text-light);
-    }
-
-    /* 2. Sign Up Button (Professional Dark Slate) */
-    .btn-secondary {
-        background: var(--secondary-color);
-        color: var(--text-light);
-    }
-
-    /* 3. Community Button (Emerald/Green Gradient) */
-    .btn-community {
-        background: var(--community-gradient);
-        color: var(--text-light);
-    }
-
-    /* Hover & Interaction Effects (Optimized for Touch) */
-    .btn:hover {
-        transform: translateY(-3px) scale(1.02);
-        box-shadow: var(--shadow-lift);
-        filter: brightness(1.1);
-        text-decoration: none;
-    }
-
-    .btn:active {
-        transform: translateY(0px) scale(0.98);
-        filter: brightness(0.9);
-    }
-
-    /* Mobile Responsive Tweak */
-    @media (max-width: 480px) {
-        .auth-buttons {
-            max-width: 100%;
-            padding: 20px;
-        }
-        .btn {
-            padding: 18px; /* Larger tap area for Android tablets/phones */
-            font-size: 17px;
-        }
-    }
-        </style>
-    
 </head>
 <body>
 
@@ -174,6 +93,7 @@
                     <li><a href="debate.html" title="Debate Section">Debate</a></li>
                     <li><a href="about.html" title="About">About</a></li>
                     <li><a href="contact.html" title="Contact Us">Contact</a></li>
+                    <li><a href="/images-community/" title="images Community">images community</a></li>
                     <li><a href="id3344/admin/dashboard/" class="admin-btn">Admin</a></li>
                 </ul>
             </div>
@@ -183,12 +103,6 @@
     <div class="watermark">
         <img src="logo.png" alt="Watermark Background" loading="lazy">
     </div>
-    
-<div class="auth-buttons">
-    <a href="login.html" class="btn btn-primary">Log In</a>
-    <a href="signup.html" class="btn btn-secondary">Sign Up</a>
-    <a href="community/index.html" class="btn btn-community">Go to Community</a>
-</div>
     
     <main class="main-content">
         
