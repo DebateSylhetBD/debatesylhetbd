@@ -3,152 +3,506 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community | DebateSylhetBD</title>
-    <link rel="stylesheet" href="https://debatesylhetbd.onrender.com/community.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <title>DebateSylhetBD Image Community | Share & Discover Educational Media</title>
+    <meta name="description" content="Join the DebateSylhetBD Images Community. A fast, spam-free, no-login platform to upload and discover high-quality images.">
+    <meta name="keywords" content="DebateSylhetBD, images community, photo sharing, educational images, Sylhet debate, free image upload">
+    <meta name="author" content="DebateSylhetBD">
+    <link rel="canonical" href="https://debatesylhetbd.onrender.com/images-community/">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://debatesylhetbd.onrender.com/images-community/">
+    <meta property="og:title" content="DebateSylhetBD Image Community">
+    <meta property="og:description" content="Upload and share images instantly without signup. Experience our lightning-fast image community.">
+    <meta property="og:image" content="https://debatesylhetbd.onrender.com/assets/default-og.jpg">
+
+    <script id="dynamic-schema" type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ImageGallery",
+      "name": "DebateSylhetBD Images Community",
+      "description": "A community-driven image gallery for DebateSylhetBD.",
+      "url": "https://debatesylhetbd.onrender.com/images-community/"
+    }
+    </script>
+
     <style>
-        .badge-verified { color: #1d9bf0; margin-left: 4px; }
-        .post-img { width: 100%; border-radius: 12px; margin-top: 10px; border: 1px solid #eee; }
-        .avatar-main { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
-        .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:99; align-items:center; justify-content:center; }
-        .modal-card { background:white; padding:25px; border-radius:15px; width:90%; max-width:400px; }
-        .hidden { display: none !important; }
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        /* Header */
+        header {
+            background: var(--surface);
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Main Container */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Upload Section */
+        .upload-container {
+            background: var(--surface);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+            border: 2px dashed var(--border);
+            transition: border-color 0.3s ease;
+        }
+
+        .upload-container:hover {
+            border-color: var(--primary);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .custom-file-upload {
+            display: inline-block;
+            padding: 12px 24px;
+            cursor: pointer;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-weight: 600;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+            margin-bottom: 1rem;
+            width: 100%;
+        }
+
+        .custom-file-upload:hover {
+            background: var(--bg-color);
+        }
+
+        #fileName {
+            display: block;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            word-break: break-all;
+        }
+
+        .btn-upload {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: var(--radius);
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s ease, transform 0.1s ease;
+        }
+
+        .btn-upload:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-upload:active {
+            transform: scale(0.98);
+        }
+
+        /* Loader */
+        .loader-container {
+            display: none;
+            margin-top: 1rem;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Status Message */
+        #statusMessage {
+            margin-top: 1rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .success { color: #16a34a; }
+        .error { color: #dc2626; }
+
+        /* Masonry Image Gallery Feed */
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .gallery-header h2 {
+            font-size: 1.5rem;
+            color: var(--text-main);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            grid-auto-flow: dense;
+        }
+
+        .image-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            aspect-ratio: 4/3;
+        }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 1rem;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-card:hover .image-overlay {
+            opacity: 1;
+        }
+
+        /* Webmaster Toolkit Button */
+        .webmaster-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .webmaster-btn:hover {
+            background: var(--border);
+            color: var(--text-main);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2rem; }
+            .upload-container { padding: 1.5rem; }
+            .gallery { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); }
+        }
     </style>
 </head>
 <body>
 
-<div class="layout-wrapper" style="display:flex; max-width:1000px; margin:auto; gap:20px; padding:15px;">
-    
-    <div class="sidebar" style="width:250px;">
-        <div class="container" style="padding:20px;">
-            <h2 style="text-align:left; font-size:20px;">DebateBD</h2>
-            <div id="userMenu" class="hidden">
-                <img id="myPic" class="avatar-main" src="">
-                <p><strong id="myName"></strong> <span id="myBadge"></span></p>
-                <hr>
-                <button onclick="openModal('picModal')" class="btn btn-secondary" style="font-size:12px; padding:5px;">Change Pic</button>
-                <button onclick="openModal('verifyModal')" class="btn btn-community" style="font-size:12px; padding:5px; margin-top:5px;">Get Verified</button>
-                <button onclick="logout()" class="btn btn-primary" style="background:red; margin-top:10px;">Logout</button>
+    <header>
+        <h1>Images Community</h1>
+        <p>DebateSylhetBD's open platform to share and discover amazing moments. No login required.</p>
+    </header>
+
+    <main>
+        <section class="upload-container">
+            <div class="upload-icon">📸</div>
+            <label class="custom-file-upload">
+                <input type="file" id="imageInput" accept="image/jpeg, image/png, image/webp, image/gif">
+                Choose Image to Upload
+            </label>
+            <span id="fileName">No file selected</span>
+            <button class="btn-upload" id="uploadBtn">Upload to Community Feed</button>
+            
+            <div class="loader-container" id="loader">
+                <div class="spinner"></div>
             </div>
-            <div id="guestMenu">
-                <p>Login to post and follow!</p>
-                <a href="../login.html" class="btn btn-primary">Login</a>
-            </div>
+            <div id="statusMessage"></div>
+        </section>
+
+        <div class="gallery-header">
+            <h2>Recent Community Uploads</h2>
+            <button class="webmaster-btn" onclick="exportSitemap()">⬇️ Generate XML Sitemap</button>
         </div>
-    </div>
+        
+        <section class="gallery" id="galleryFeed">
+            </section>
+    </main>
 
-    <div class="feed" style="flex:1;">
-        <div id="postArea" class="container hidden" style="margin-bottom:20px;">
-            <form id="postForm">
-                <textarea id="pContent" placeholder="What's the debate today?" required style="width:100%; border:none; outline:none; font-size:18px;"></textarea>
-                <input type="text" id="pImg" placeholder="Image URL (optional)" style="width:100%; margin-top:10px; padding:8px; border:1px solid #ddd; border-radius:8px;">
-                <button type="submit" class="btn btn-primary" style="width:auto; float:right; margin-top:10px;">Post</button>
-                <div style="clear:both;"></div>
-            </form>
-        </div>
+    <script>
+        const API_KEY = 'fdbfbcfd3bc5189e50a50c574515298d'; 
+        
+        // DOM Elements
+        const fileInput = document.getElementById('imageInput');
+        const fileNameDisplay = document.getElementById('fileName');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const loader = document.getElementById('loader');
+        const statusMessage = document.getElementById('statusMessage');
+        const galleryFeed = document.getElementById('galleryFeed');
 
-        <div id="feedContent">Loading...</div>
-    </div>
-</div>
+        // Due to the purely static 100% front-end nature (no backend), we use localStorage 
+        // to retain the image array. To make this global across all visitors, you would connect 
+        // a simple Firebase real-time JSON DB here.
+        let communityImages = JSON.parse(localStorage.getItem('dsbd_images_feed')) || [];
 
-<div id="picModal" class="modal-overlay">
-    <div class="modal-card">
-        <h3>Update Profile Picture</h3>
-        <input type="text" id="newPicUrl" placeholder="Paste Image URL here" class="form-group" style="width:100%; padding:10px; margin:15px 0;">
-        <button onclick="updatePic()" class="btn btn-primary">Save</button>
-        <button onclick="closeModals()" class="btn btn-secondary">Cancel</button>
-    </div>
-</div>
-
-<div id="verifyModal" class="modal-overlay">
-    <div class="modal-card">
-        <h3>Apply for Verification</h3>
-        <input type="text" id="vName" placeholder="Full Name" style="width:100%; margin-bottom:10px; padding:8px;">
-        <input type="email" id="vEmail" placeholder="Email" style="width:100%; margin-bottom:10px; padding:8px;">
-        <input type="tel" id="vPhone" placeholder="Mobile" style="width:100%; margin-bottom:10px; padding:8px;">
-        <button onclick="applyVerify()" class="btn btn-community">Submit to Rahim</button>
-        <button onclick="closeModals()" class="btn btn-secondary">Cancel</button>
-    </div>
-</div>
-
-<script>
-    const API = "https://deshpay-api.onrender.com/api";
-    const user = localStorage.getItem("user");
-
-    function openModal(id){ document.getElementById(id).style.display='flex'; }
-    function closeModals(){ document.querySelectorAll('.modal-overlay').forEach(m => m.style.display='none'); }
-
-    if(user){
-        document.getElementById('userMenu').classList.remove('hidden');
-        document.getElementById('postArea').classList.remove('hidden');
-        document.getElementById('guestMenu').classList.add('hidden');
-        document.getElementById('myName').innerText = user;
-        document.getElementById('myPic').src = localStorage.getItem("pic") || "";
-    }
-
-    async function loadPosts() {
-        const res = await fetch(`${API}/posts`);
-        const posts = await res.json();
-        const feed = document.getElementById('feedContent');
-        feed.innerHTML = "";
-        posts.forEach(p => {
-            const badge = p.is_verified ? '<i class="fa-solid fa-circle-check badge-verified"></i>' : '';
-            const img = p.image_url ? `<img src="${p.image_url}" class="post-img">` : '';
-            feed.innerHTML += `
-                <div class="post-card container" style="margin-bottom:15px;">
-                    <div style="display:flex; gap:10px; align-items:center;">
-                        <img src="${p.profile_pic}" class="avatar-main" style="width:40px; height:40px;">
-                        <div>
-                            <strong>@${p.username}</strong> ${badge}
-                            <div style="font-size:11px; color:gray;">${new Date(p.created_at).toLocaleString()}</div>
-                        </div>
-                        ${user && user !== p.username ? `<button onclick="follow('${p.username}')" style="margin-left:auto; font-size:12px;" class="btn btn-secondary">Follow</button>` : ''}
-                    </div>
-                    <p style="margin-top:10px;">${p.content}</p>
-                    ${img}
-                </div>
-            `;
+        // Update File Name Display
+        fileInput.addEventListener('change', function() {
+            if(this.files && this.files.length > 0) {
+                fileNameDisplay.textContent = this.files[0].name;
+            } else {
+                fileNameDisplay.textContent = "No file selected";
+            }
         });
-    }
 
-    document.getElementById('postForm').onsubmit = async (e) => {
-        e.preventDefault();
-        await fetch(`${API}/posts`, {
-            method: 'POST', headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({username: user, content: document.getElementById('pContent').value, image_url: document.getElementById('pImg').value})
+        // Anti-Spam Validation
+        function validateImage(file) {
+            const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+            if (!validTypes.includes(file.type)) {
+                return 'Spam Protection: Invalid file type. Please upload JPG, PNG, WEBP, or GIF.';
+            }
+            if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                return 'Spam Protection: File size exceeds 5MB. Please compress your image.';
+            }
+            return null;
+        }
+
+        // Upload Handler
+        uploadBtn.addEventListener('click', async () => {
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showStatus('Please select an image first.', 'error');
+                return;
+            }
+
+            const validationError = validateImage(file);
+            if (validationError) {
+                showStatus(validationError, 'error');
+                return;
+            }
+
+            // UI Loading State
+            uploadBtn.style.display = 'none';
+            loader.style.display = 'block';
+            showStatus('Uploading to DebateSylhetBD...', '');
+
+            const formData = new FormData();
+            formData.append('image', file);
+
+            try {
+                // Post to ImgBB
+                const response = await fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    const newImageData = {
+                        id: data.data.id,
+                        url: data.data.url,
+                        title: data.data.title || 'DebateSylhetBD Community Upload',
+                        date: new Date().toISOString()
+                    };
+
+                    // Save locally (or to your Firebase if connected)
+                    communityImages.unshift(newImageData);
+                    localStorage.setItem('dsbd_images_feed', JSON.stringify(communityImages));
+                    
+                    // Reset UI
+                    fileInput.value = '';
+                    fileNameDisplay.textContent = 'No file selected';
+                    showStatus('Image successfully added to the community!', 'success');
+                    
+                    renderGallery();
+                } else {
+                    showStatus('Upload failed from Image Server.', 'error');
+                }
+            } catch (error) {
+                console.error(error);
+                showStatus('Network error during upload.', 'error');
+            } finally {
+                uploadBtn.style.display = 'block';
+                loader.style.display = 'none';
+                
+                // Clear success message after 4 seconds
+                setTimeout(() => {
+                    if(statusMessage.className === 'success') showStatus('', '');
+                }, 4000);
+            }
         });
-        location.reload();
-    };
 
-    async function updatePic() {
-        const url = document.getElementById('newPicUrl').value;
-        await fetch(`${API}/update-pic`, {
-            method: 'POST', headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({username: user, url: url})
-        });
-        localStorage.setItem("pic", url);
-        location.reload();
-    }
+        function showStatus(text, type) {
+            statusMessage.textContent = text;
+            statusMessage.className = type;
+        }
 
-    async function applyVerify() {
-        await fetch(`${API}/verify-apply`, {
-            method: 'POST', headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({username: user, name: document.getElementById('vName').value, email: document.getElementById('vEmail').value, mobile: document.getElementById('vPhone').value})
-        });
-        alert("Applied! Rahim will check it.");
-        closeModals();
-    }
+        // Render Feed & Apply Lazy Loading for Max SEO
+        function renderGallery() {
+            galleryFeed.innerHTML = '';
+            
+            if(communityImages.length === 0) {
+                galleryFeed.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">No images yet. Be the first to upload!</p>';
+                return;
+            }
 
-    async function follow(target) {
-        await fetch(`${API}/follow`, {
-            method: 'POST', headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({follower: user, following: target})
-        });
-        alert("Following " + target);
-    }
+            communityImages.forEach(img => {
+                const card = document.createElement('article');
+                card.className = 'image-card';
+                
+                // Constructing SEO friendly image tags
+                const imageEl = document.createElement('img');
+                imageEl.src = img.url;
+                imageEl.alt = img.title;
+                imageEl.loading = 'lazy'; // Critical for ultra SEO scores
+                
+                const overlay = document.createElement('div');
+                overlay.className = 'image-overlay';
+                overlay.innerHTML = `<span>${new Date(img.date).toLocaleDateString()}</span>`;
 
-    function logout() { localStorage.clear(); location.reload(); }
-    loadPosts();
-</script>
+                card.appendChild(imageEl);
+                card.appendChild(overlay);
+                
+                // Open full size in new tab on click
+                card.onclick = () => window.open(img.url, '_blank');
+                
+                galleryFeed.appendChild(card);
+            });
+
+            updateAutoStructuredData();
+        }
+
+        // AUTO STRUCTURED DATA (JSON-LD) GENERATOR
+        function updateAutoStructuredData() {
+            const schemaScript = document.getElementById('dynamic-schema');
+            
+            // Build dynamic ImageGallery schema array
+            const imageObjects = communityImages.map((img) => ({
+                "@type": "ImageObject",
+                "contentUrl": img.url,
+                "datePublished": img.date,
+                "author": {
+                    "@type": "Organization",
+                    "name": "DebateSylhetBD Community"
+                }
+            }));
+
+            const baseSchema = {
+                "@context": "https://schema.org",
+                "@type": "ImageGallery",
+                "name": "DebateSylhetBD Images Community",
+                "description": "An interactive, ultra-fast image gallery sharing educational and community content.",
+                "url": "https://debatesylhetbd.onrender.com/images-community/",
+                "image": imageObjects.length > 0 ? imageObjects.map(i => i.contentUrl) : []
+            };
+
+            schemaScript.textContent = JSON.stringify(baseSchema, null, 2);
+        }
+
+        // AUTO IMAGE SITEMAP GENERATOR (For Webmaster Console)
+        function exportSitemap() {
+            if(communityImages.length === 0) return alert('No images to generate sitemap.');
+            
+            let xmlString = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+            xmlString += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n`;
+            xmlString += `  <url>\n`;
+            xmlString += `    <loc>https://debatesylhetbd.onrender.com/images-community/</loc>\n`;
+            
+            communityImages.forEach(img => {
+                xmlString += `    <image:image>\n`;
+                xmlString += `      <image:loc>${img.url}</image:loc>\n`;
+                xmlString += `      <image:title>${img.title}</image:title>\n`;
+                xmlString += `    </image:image>\n`;
+            });
+            
+            xmlString += `  </url>\n`;
+            xmlString += `</urlset>`;
+
+            // Trigger download of sitemap.xml
+            const blob = new Blob([xmlString], { type: 'text/xml' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'images-sitemap.xml';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize Feed on Load
+        window.addEventListener('DOMContentLoaded', renderGallery);
+    </script>
 </body>
 </html>
