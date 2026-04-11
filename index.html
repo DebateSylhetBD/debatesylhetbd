@@ -1,23 +1,32 @@
 <!DOCTYPE html>
-<html lang="bn">
-    <head>
+<html lang="en,bn-BD">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="author" content="RIZWAN RAHIM CHOWDHURY">
+    <meta name="theme-color" content="#6366f1"> <title>DebateSylhetBD | Best Educational & Debate Website in Bangladesh | ডিবেটসিলেটবিডি</title>
     
-    <title>DebateSylhetBD | Best Educational & Debate Website in Bangladesh | ডিবেটসিলেটবিডি</title>
-    
-    <meta name="title" content="DebateSylhetBD | Best Educational & Debate Website in Bangladesh | ডিবেটসিলেটবিডি">
+    <meta name="title" content="DebateSylhetBD | educational and debate resources | ডিবেটসিলেটবিডি">
     <meta name="description" content="DebateSylhetBD is the best educational website in Bangladesh. Explore top Bangla debate topics, student resources, and Bangladesh history. ডিবেটসিলেটবিডি">
     <meta name="keywords" content="DebateSylhetBD, debate sylhet bd, ডিবেটসিলেটবিডি, best educational website in Bangladesh, debate website in Bangladesh, bangla debate topics, bangladesh history, school debate preparation">
+    
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="google" content="notranslate">
     <meta http-equiv="content-language" content="en, bn">
+
+    <meta name="geo.region" content="BD-SY">
+    <meta name="geo.placename" content="Sylhet">
+    <meta name="geo.position" content="24.8949;91.8687">
+    <meta name="ICBM" content="24.8949, 91.8687">
     
     <link rel="canonical" href="https://debatesylhetbd.onrender.com/">
 
     <meta name='dmca-site-verification' content='Q3JCM29zbUpwVEhrWVNMNlR0d2w4c1hxdDJlMlcxeHhvQzFFdjVCelo4VT01' />
     <meta name="trustpilot-one-time-domain-verification-id" content="cb5622b2-ccfe-4899-a801-88595de94752"/>
+
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
     <link rel="icon" type="image/png" sizes="192x192" href="logo-192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="logo-512.png">
@@ -31,15 +40,19 @@
     <meta property="og:site_name" content="DebateSylhetBD">
     <meta property="og:title" content="DebateSylhetBD | Best Educational & Debate Website in Bangladesh">
     <meta property="og:description" content="বাংলাদেশ ও আন্তর্জাতিক বিষয়ক শিক্ষামূলক বিতর্ক, মত প্রকাশ, এবং বাংলাদেশের সেরা এডুকেশনাল ওয়েবসাইট।">
-    <meta property="og:image" content="https://debatesylhetbd.onrender.com/logo.png">
+    <meta property="og:image" content="https://debatesylhetbd.onrender.com/logo-512.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="DebateSylhetBD Logo">
     <meta property="og:locale" content="bn_BD">
     <meta property="og:locale:alternate" content="en_US">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://debatesylhetbd.onrender.com/">
+    <meta name="twitter:site" content="@debatesylhetbd"> <meta name="twitter:url" content="https://debatesylhetbd.onrender.com/">
     <meta name="twitter:title" content="DebateSylhetBD | Best Educational & Debate Website in Bangladesh">
     <meta name="twitter:description" content="বাংলাদেশ ও আন্তর্জাতিক বিষয়ক শিক্ষামূলক বিতর্ক ও মত প্রকাশের ওয়েবসাইট।">
-    <meta name="twitter:image" content="https://debatesylhetbd.onrender.com/logo.png">
+    <meta name="twitter:image" content="https://debatesylhetbd.onrender.com/logo-512.png">
+    <meta name="twitter:image:alt" content="DebateSylhetBD Logo">
 
     <link rel="alternate" href="https://www.tiktok.com/@debatesylhetbd">
     <link rel="alternate" href="https://www.facebook.com/share/1B8LxFEstA/">
@@ -71,7 +84,10 @@
           "publisher": { "@id": "https://debatesylhetbd.onrender.com/#organization" },
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://debatesylhetbd.onrender.com/search?q={search_term_string}",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://debatesylhetbd.onrender.com/search?q={search_term_string}"
+            },
             "query-input": "required name=search_term_string"
           }
         },
@@ -79,14 +95,28 @@
           "@type": "Organization",
           "@id": "https://debatesylhetbd.onrender.com/#organization",
           "name": "DebateSylhetBD",
-          "alternateName": "ডিবেটসিলেটবিডি",
+          "alternateName": ["ডিবেটসিলেটবিডি", "Debate Sylhet BD"],
           "url": "https://debatesylhetbd.onrender.com/",
           "logo": {
             "@type": "ImageObject",
-            "url": "https://debatesylhetbd.onrender.com/logo.png"
+            "url": "https://debatesylhetbd.onrender.com/logo-512.png",
+            "width": 512,
+            "height": 512,
+            "caption": "DebateSylhetBD Logo"
           },
+          "image": "https://debatesylhetbd.onrender.com/logo-512.png",
           "description": "Bangladeshi educational website providing Bangla debate topics and academic resources.",
-          "founder": { "@type": "Person", "name": "Rizwan Rahim Chowdhury" },
+          "founder": { 
+            "@type": "Person", 
+            "name": "Rizwan Rahim Chowdhury",
+            "jobTitle": "Founder & Author"
+          },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer support",
+            "url": "https://debatesylhetbd.onrender.com/contact.html",
+            "availableLanguage": ["Bengali", "English"]
+          },
           "sameAs": [
             "https://www.facebook.com/share/1B8LxFEstA/",
             "https://www.instagram.com/debatesylhetbd",
@@ -97,125 +127,41 @@
       ]
     }
     </script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  "name": "DebateSylhetBD Main Navigation",
-  "description": "Important educational and debate resources on DebateSylhetBD.",
-  "itemListElement": [
+
+    <script type="application/ld+json">
     {
-      "@type": "SiteNavigationElement",
-      "position": 1,
-      "name": "Class 6-HSC Topics",
-      "description": "Debate topics structured for Class 6 to HSC students.",
-      "url": "https://debatesylhetbd.onrender.com/topics-list/different-types-of-debate-topics/"
-    },
-    {
-      "@type": "SiteNavigationElement",
-      "position": 2,
-      "name": "Bangla Debate (বিতর্ক)",
-      "description": "Explore Bangla debate topics and resources.",
-      "url": "https://debatesylhetbd.onrender.com/debate.html"
-    },
-    {
-      "@type": "SiteNavigationElement",
-      "position": 3,
-      "name": "Bangladesh History",
-      "description": "বাংলাদেশের ইতিহাস - History of Bangladesh.",
-      "url": "https://debatesylhetbd.onrender.com/history.html"
-    },
-    {
-      "@type": "SiteNavigationElement",
-      "position": 4,
-      "name": "30 Debate Topics",
-      "description": "Curated list of 30 top debate topics.",
-      "url": "https://debatesylhetbd.onrender.com/topics-list/"
-    },
-    {
-      "@type": "SiteNavigationElement",
-      "position": 5,
-      "name": "Articles & Encyclopedia",
-      "description": "Latest articles and the DebateSylhetBD encyclopedia.",
-      "url": "https://debatesylhetbd.onrender.com/article.html"
-    },
-    {
-      "@type": "SiteNavigationElement",
-      "position": 6,
-      "name": "What is Debate?",
-      "description": "Learn the fundamentals of debating.",
-      "url": "https://debatesylhetbd.onrender.com/what-is-debate.html"
-    },
-    {
-      "@type": "SiteNavigationElement",
-      "position": 7,
-      "name": "Sylhet Division",
-      "description": "Debate resources and news for Sylhet Division.",
-      "url": "https://debatesylhetbd.onrender.com/sylhet.html"
-    },
-    {
-      "@type": "SiteNavigationElement",
-      "position": 8,
-      "name": "Dhaka Division",
-      "description": "Debate resources and news for Dhaka Division.",
-      "url": "https://debatesylhetbd.onrender.com/dhaka.html"
-    },
-    {
-      "@type": "SiteNavigationElement",
-      "position": 9,
-      "name": "Chattogram Division",
-      "description": "Debate resources and news for Chattogram Division.",
-      "url": "https://debatesylhetbd.onrender.com/chattogram-division.html"
-    },
-    {
-      "@type": "SiteNavigationElement",
-      "position": 10,
-      "name": "Environment Hub",
-      "description": "Discussions and topics on nature and the environment.",
-      "url": "https://debatesylhetbd.onrender.com/nature-page-10.html"
-    },
-    {
-      "@type": "SiteNavigationElement",
-      "position": 11,
-      "name": "Submit Documentation",
-      "description": "Submit your debate documentation for 2026.",
-      "url": "https://debatesylhetbd.onrender.com/debate-documentation-submission-2026.html"
-    },
-    {
-      "@type": "SiteNavigationElement",
-      "position": 12,
-      "name": "Images Community",
-      "description": "Join the DebateSylhetBD visual community.",
-      "url": "https://debatesylhetbd.onrender.com/images-community/"
-    },
-    {
-      "@type": "SiteNavigationElement",
-      "position": 13,
-      "name": "About Us",
-      "description": "Learn about the best educational website in Bangladesh.",
-      "url": "https://debatesylhetbd.onrender.com/about.html"
-    },
-    {
-      "@type": "SiteNavigationElement",
-      "position": 14,
-      "name": "Contact",
-      "description": "Get in touch with the DebateSylhetBD team.",
-      "url": "https://debatesylhetbd.onrender.com/contact.html"
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "DebateSylhetBD Main Navigation",
+      "description": "Important educational and debate resources on DebateSylhetBD.",
+      "itemListElement": [
+        { "@type": "SiteNavigationElement", "position": 1, "name": "Class 6-HSC Topics", "url": "https://debatesylhetbd.onrender.com/topics-list/different-types-of-debate-topics/" },
+        { "@type": "SiteNavigationElement", "position": 2, "name": "Bangla Debate (বিতর্ক)", "url": "https://debatesylhetbd.onrender.com/debate.html" },
+        { "@type": "SiteNavigationElement", "position": 3, "name": "Bangladesh History", "url": "https://debatesylhetbd.onrender.com/history.html" },
+        { "@type": "SiteNavigationElement", "position": 4, "name": "30 Debate Topics", "url": "https://debatesylhetbd.onrender.com/topics-list/" },
+        { "@type": "SiteNavigationElement", "position": 5, "name": "Articles & Encyclopedia", "url": "https://debatesylhetbd.onrender.com/article.html" },
+        { "@type": "SiteNavigationElement", "position": 6, "name": "What is Debate?", "url": "https://debatesylhetbd.onrender.com/what-is-debate.html" },
+        { "@type": "SiteNavigationElement", "position": 7, "name": "Sylhet Division", "url": "https://debatesylhetbd.onrender.com/sylhet.html" },
+        { "@type": "SiteNavigationElement", "position": 8, "name": "Dhaka Division", "url": "https://debatesylhetbd.onrender.com/dhaka.html" },
+        { "@type": "SiteNavigationElement", "position": 9, "name": "Chattogram Division", "url": "https://debatesylhetbd.onrender.com/chattogram-division.html" },
+        { "@type": "SiteNavigationElement", "position": 10, "name": "Environment Hub", "url": "https://debatesylhetbd.onrender.com/nature-page-10.html" },
+        { "@type": "SiteNavigationElement", "position": 11, "name": "Submit Documentation", "url": "https://debatesylhetbd.onrender.com/debate-documentation-submission-2026.html" },
+        { "@type": "SiteNavigationElement", "position": 12, "name": "Images Community", "url": "https://debatesylhetbd.onrender.com/images-community/" },
+        { "@type": "SiteNavigationElement", "position": 13, "name": "About Us", "url": "https://debatesylhetbd.onrender.com/about.html" },
+        { "@type": "SiteNavigationElement", "position": 14, "name": "Contact", "url": "https://debatesylhetbd.onrender.com/contact.html" }
+      ]
     }
-  ]
-}
-</script>
+    </script>
 
     <style>
         /* 1. The Container */
         .button-group {
           display: grid;
-          /* Creates 4 equal columns on desktop, 1 on mobile */
           grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
           gap: 15px;
           padding: 20px;
           max-width: 1000px;
-          margin: 0 auto; /* Centers the whole block */
+          margin: 0 auto;
         }
 
         /* 2. The Buttons */
@@ -225,27 +171,19 @@
           align-items: center;
           justify-content: center;
           text-align: center;
-          min-height: 60px; /* Forces uniform height */
+          min-height: 60px;
           padding: 10px 15px;
           text-decoration: none;
           font-weight: 500;
-          border-radius: 8px; /* Consistent rounded corners */
+          border-radius: 8px;
           transition: all 0.3s ease;
           font-size: 14px;
-          border: 2px solid transparent; /* Prevents jumping on hover */
+          border: 2px solid transparent;
         }
 
         /* 3. Handling Different Styles (Outline vs Filled) */
-        .btn-filled {
-          color: white;
-          /* Background color should be set individually or via class */
-        }
-
-        .btn-outline {
-          background: transparent;
-          border: 2px solid #6366f1; /* Example purple border */
-          color: #6366f1;
-        }
+        .btn-filled { color: white; }
+        .btn-outline { background: transparent; border: 2px solid #6366f1; color: #6366f1; }
 
         /* 4. Hover Effect for Polish */
         .button-group a:hover {
@@ -255,6 +193,7 @@
         }
     </style>
 </head>
+
 
 <body>
 
