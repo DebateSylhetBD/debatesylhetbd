@@ -170,7 +170,101 @@ h1, h2, h3, h4 {
 
 .nav-links a:hover { color: var(--primary); }
 .nav-links a:hover::after { width: 100%; }
+/* --- Mobile Menu Toggle Button --- */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+}
 
+.menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background: #333;
+    border-radius: 2px;
+}
+
+/* --- RESPONSIVE LOGIC (Tablets & Mobiles) --- */
+@media (max-width: 992px) {
+    .menu-toggle {
+        display: flex; /* Show hamburger */
+    }
+
+    .nav-links {
+        display: none; /* Hide standard links */
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #ffffff;
+        padding: 20px;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        border-top: 1px solid #eee;
+    }
+
+    /* When menu is active (via JS) */
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links li {
+        width: 100%;
+        text-align: left;
+        padding: 10px 0;
+        border-bottom: 1px solid #f9f9f9;
+    }
+}
+
+/* --- Watermark Fix (Optional) --- */
+.watermark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.05;
+    z-index: -1;
+    pointer-events: none;
+}
+.watermark img { width: 300px; max-width: 80%; }
+        /* 1. The Container */
+        .button-group {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 15px;
+          padding: 20px;
+          max-width: 1000px;
+          margin: 0 auto;
+        }
+
+        /* 2. The Buttons */
+        .button-group a, 
+        .button-group button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          min-height: 60px;
+          padding: 10px 15px;
+          text-decoration: none;
+          font-weight: 500;
+          border-radius: 8px;
+          transition: all 0.3s ease;
+          font-size: 14px;
+          border: 2px solid transparent;
+        }
+
+        /* 3. Handling Different Styles (Outline vs Filled) */
+        .btn-filled { color: white; }
+        .btn-outline { background: transparent; border: 2px solid #6366f1; color: #6366f1; }
+
+        /* 4. Hover Effect for Polish */
+        .button-group a:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          filter: brightness(1.1);
+        }
 .admin-btn {
     background: var(--secondary);
     color: white !important;
