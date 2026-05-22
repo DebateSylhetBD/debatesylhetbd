@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ==================== ULTRA SEO OPTIMIZATION ==================== -->
+    <title>Nadiya Jannat Pinky - Online Best Professional Debate Expert Certificate | DebateSylhetBD</title>
+    <meta name="description" content="Official Professional Debate Expert Certificate awarded to Nadiya Jannat Pinky by DebateSylhetBD. Founded by Rizwan Rahim Chowdhury. Download the verified certificate.">
+    <meta name="keywords" content="Nadiya Jannat Pinky, Debate Expert Sylhet, DebateSylhetBD, Rizwan Rahim Chowdhury, সেরা বিতার্কিক, সিলেট বিতর্ক, অনলাইন বিতর্ক, Professional Debate Certificate, Online Debate Expert, Best Debater Bangladesh">
+    <meta name="author" content="Rizwan Rahim Chowdhury">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph for Social Media Sharing -->
+    <meta property="og:title" content="Nadiya Jannat Pinky - Professional Debate Expert | DebateSylhetBD">
+    <meta property="og:description" content="View and download the official Professional Debate Expert Certificate for Nadiya Jannat Pinky, recognized by DebateSylhetBD.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://debatesylhetbd.onrender.com/nadiya-jannat-pinky">
+    
+    <!-- JSON-LD Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Nadiya Jannat Pinky",
+      "jobTitle": "Professional Debate Expert",
+      "award": "Online Best Professional Debate Expert",
+      "url": "https://debatesylhetbd.onrender.com/nadiya-jannat-pinky",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "DebateSylhetBD",
+        "founder": {
+          "@type": "Person",
+          "name": "Rizwan Rahim Chowdhury"
+        }
+      }
+    }
+    </script>
+    <!-- ================================================================ -->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+    
+    <!-- html2pdf Library for PDF Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        /* ==================== INTERNAL CSS ==================== */
+        :root {
+            --primary-bg: #f4f7f6;
+            --cert-bg: #ffffff;
+            --border-color: #1a252c; /* Navy Blue */
+            --accent-gold: #d4af37; /* Gold */
+            --text-main: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-info {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header-info h1 {
+            font-size: 1.8rem;
+            color: var(--border-color);
+        }
+
+        /* Certificate Container */
+        .certificate-container {
+            width: 100%;
+            max-width: 1050px;
+            background: var(--cert-bg);
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            position: relative;
+            margin-bottom: 30px;
+            /* To ensure high quality PDF generation */
+            background-image: radial-gradient(circle, #ffffff 0%, #fcfcfc 100%);
+        }
+
+        /* Outer Border */
+        .cert-outer-border {
+            border: 12px solid var(--border-color);
+            padding: 8px;
+            height: 100%;
+        }
+
+        /* Inner Border */
+        .cert-inner-border {
+            border: 3px solid var(--accent-gold);
+            padding: 40px 50px;
+            height: 100%;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Background Watermark */
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8rem;
+            color: rgba(212, 175, 55, 0.04);
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Content Z-index correction */
+        .cert-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Logos & Headings */
+        .brand-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--border-color);
+            margin-bottom: 10px;
+        }
+        
+        .brand-logo span {
+            color: var(--accent-gold);
+        }
+
+        .cert-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin: 20px 0;
+            border-bottom: 2px solid var(--accent-gold);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            color: #555;
+        }
+
+        .presented-to {
+            font-style: italic;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .recipient-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            color: var(--border-color);
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .reason {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto 50px auto;
+        }
+
+        /* Footer / Signatures / QR */
+        .cert-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 40px;
+        }
+
+        .signature-block {
+            text-align: center;
+            width: 250px;
+        }
+
+        .signature-line {
+            border-top: 2px solid var(--border-color);
+            margin-bottom: 10px;
+        }
+
+        .signature-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--border-color);
+        }
+
+        .signature-title {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .qr-block {
+            text-align: center;
+        }
+
+        .qr-block img {
+            width: 100px;
+            height: 100px;
+            border: 2px solid var(--accent-gold);
+            padding: 5px;
+            background: #fff;
+        }
+
+        .qr-text {
+            font-size: 0.75rem;
+            margin-top: 5px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        /* Action Buttons */
+        .actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            color: #fff;
+            background-color: var(--border-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            background-color: var(--accent-gold);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .seo-footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #666;
+            max-width: 800px;
+        }
+
+        /* Responsiveness */
+        @media (max-width: 800px) {
+            .cert-inner-border { padding: 30px 20px; }
+            .recipient-name { font-size: 2.5rem; }
+            .cert-title { font-size: 2rem; }
+            .cert-footer { flex-direction: column; align-items: center; gap: 30px; }
+            .watermark { font-size: 4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-info">
+        <h1>DebateSylhetBD Official Certification Portal</h1>
+        <p>Verify and Download Authority Certificates</p>
+    </header>
+
+    <!-- CERTIFICATE WRAPPER (This part gets converted to PDF) -->
+    <main id="certificate-node" class="certificate-container">
+        <div class="cert-outer-border">
+            <div class="cert-inner-border">
+                <div class="watermark">DebateSylhetBD</div>
+                
+                <div class="cert-content">
+                    <div class="brand-logo">Debate<span>Sylhet</span>BD</div>
+                    
+                    <h2 class="cert-title">Certificate of Excellence</h2>
+                    <p class="subtitle">Online Best Professional Debate Expert</p>
+                    
+                    <p class="presented-to">This prestigious certificate is proudly presented to</p>
+                    
+                    <h1 class="recipient-name">Nadiya Jannat Pinky</h1>
+                    
+                    <p class="reason">
+                        In profound recognition of your outstanding logical reasoning, exceptional oratory skills, and unmatched dedication to the art of debate. You have proven yourself as an authoritative voice and the best professional online debate expert.
+                    </p>
+                    
+                    <div class="cert-footer">
+                        <!-- Date Block -->
+                        <div class="signature-block">
+                            <div class="signature-line" style="border-top: none;">
+                                <strong style="font-size: 1.2rem;">May 2026</strong>
+                            </div>
+                            <div class="signature-title">Date of Issuance</div>
+                        </div>
+
+                        <!-- QR Code Block -->
+                        <div class="qr-block">
+                            <!-- Live working QR code via Google Chart API / QRServer -->
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://debatesylhetbd.onrender.com/nadiya-jannat-pinky" alt="QR Code for Nadiya Jannat Pinky" crossorigin="anonymous">
+                            <div class="qr-text">Scan to Verify</div>
+                        </div>
+
+                        <!-- Signature Block -->
+                        <div class="signature-block">
+                            <div class="signature-line"></div>
+                            <div class="signature-name">Rizwan Rahim Chowdhury</div>
+                            <div class="signature-title">Founder, Author & Developer<br>DebateSylhetBD</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Interactive Actions -->
+    <div class="actions">
+        <button class="btn" onclick="downloadCertificate()">Download Certificate as PDF</button>
+    </div>
+
+    <footer class="seo-footer">
+        <p><strong>About DebateSylhetBD:</strong> We are the premier debate organization dedicated to fostering analytical thinking and public speaking. Developed and authored by Rizwan Rahim Chowdhury, our platform recognizes top talents like Nadiya Jannat Pinky. Whether you are looking for Sylhet debate updates, online debate competitions, or professional debate experts (সেরা বিতার্কিক), DebateSylhetBD is your trusted authority.</p>
+    </footer>
+
+    <!-- ==================== INTERNAL JAVASCRIPT ==================== -->
+    <script>
+        /**
+         * Function to download the certificate as a high-quality PDF
+         * It uses the html2pdf.js library loaded via CDN
+         */
+        function downloadCertificate() {
+            // Select the certificate container
+            const element = document.getElementById('certificate-node');
+            
+            // Configure the PDF output settings
+            const opt = {
+                margin:       0,
+                filename:     'Nadiya_Jannat_Pinky_Debate_Expert_Certificate.pdf',
+                image:        { type: 'jpeg', quality: 1 },
+                html2canvas:  { 
+                    scale: 3, // High resolution
+                    useCORS: true, // Allows the external QR code image to load in the PDF
+                    logging: true
+                },
+                jsPDF:        { 
+                    unit: 'in', 
+                    format: 'letter', 
+                    orientation: 'landscape' // Certificate format
+                }
+            };
+
+            // Generate and save the PDF
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
+
+</body>
+</html>
