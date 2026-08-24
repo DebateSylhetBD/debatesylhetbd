@@ -1,0 +1,3348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StreamPulse - Live Streaming Platform</title>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<style>
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-primary: #0f0f12;
+  --bg-secondary: #1a1a24;
+  --bg-tertiary: #252536;
+  --bg-card: #1e1e2e;
+  --purple: #8a2be2;
+  --purple-glow: rgba(138, 43, 226, 0.4);
+  --cyan: #00f2fe;
+  --cyan-glow: rgba(0, 242, 254, 0.3);
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0b8;
+  --text-muted: #6b6b80;
+  --red: #ff4757;
+  --green: #2ed573;
+  --orange: #ffa502;
+  --glass-bg: rgba(30, 30, 46, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --sidebar-width: 360px;
+  --header-height: 60px;
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--purple);
+}
+
+#app-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== AUTH VIEWS ===== */
+.auth-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at 30% 20%, rgba(138, 43, 226, 0.15) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 80%, rgba(0, 242, 254, 0.08) 0%, transparent 50%),
+              var(--bg-primary);
+}
+
+.auth-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  border-radius: var(--radius-xl);
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+}
+
+.auth-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.auth-logo svg {
+  width: 40px;
+  height: 40px;
+}
+
+.auth-logo span {
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--purple), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.auth-card h2 {
+  text-align: center;
+  margin-bottom: 8px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.auth-card .auth-subtitle {
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+  font-size: 14px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 15px;
+  transition: border var(--transition-fast);
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px var(--purple-glow);
+}
+
+.form-input.error {
+  border-color: var(--red);
+}
+
+.form-error {
+  color: var(--red);
+  font-size: 12px;
+  margin-top: 4px;
+  min-height: 18px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  outline: none;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--purple), #6a1fb8);
+  color: white;
+  width: 100%;
+  padding: 14px;
+  font-size: 15px;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 4px 20px var(--purple-glow);
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--glass-border);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-card);
+}
+
+.btn-danger {
+  background: rgba(255, 71, 87, 0.15);
+  color: var(--red);
+  border: 1px solid rgba(255, 71, 87, 0.3);
+}
+
+.btn-danger:hover {
+  background: rgba(255, 71, 87, 0.25);
+}
+
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: var(--radius-sm);
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border: 1px solid var(--glass-border);
+}
+
+.btn-icon:hover {
+  color: var(--text-primary);
+  background: var(--bg-card);
+}
+
+.btn-icon.active {
+  background: var(--purple);
+  color: white;
+  border-color: var(--purple);
+}
+
+.btn-icon.muted {
+  background: rgba(255, 71, 87, 0.2);
+  color: var(--red);
+  border-color: rgba(255, 71, 87, 0.3);
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 20px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.auth-switch a {
+  color: var(--cyan);
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
+
+/* ===== PROFILE SETUP ===== */
+.profile-setup-card {
+  max-width: 500px;
+}
+
+.avatar-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.avatar-preview {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  overflow: hidden;
+  border: 3px solid var(--purple);
+  font-size: 36px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.avatar-preview:hover {
+  border-color: var(--cyan);
+}
+
+.avatar-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.form-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 14px;
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+  outline: none;
+}
+
+.form-textarea:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px var(--purple-glow);
+}
+
+/* ===== MAIN LAYOUT ===== */
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+/* ===== HEADER ===== */
+.app-header {
+  height: var(--header-height);
+  min-height: var(--header-height);
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 16px;
+  z-index: 100;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.header-logo svg {
+  width: 28px;
+  height: 28px;
+}
+
+.header-logo span {
+  font-size: 18px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--purple), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-search {
+  flex: 1;
+  max-width: 400px;
+  position: relative;
+}
+
+.header-search input {
+  width: 100%;
+  padding: 8px 16px 8px 40px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  color: var(--text-primary);
+  font-size: 14px;
+  outline: none;
+  transition: border var(--transition-fast);
+}
+
+.header-search input:focus {
+  border-color: var(--purple);
+}
+
+.header-search svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: var(--text-muted);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.latency-monitor {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.latency-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.latency-dot.warn {
+  background: var(--orange);
+}
+
+.latency-dot.bad {
+  background: var(--red);
+}
+
+.go-live-btn {
+  padding: 8px 20px;
+  background: linear-gradient(135deg, var(--red), #e8384f);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+
+.go-live-btn:hover {
+  box-shadow: 0 4px 16px rgba(255, 71, 87, 0.4);
+  transform: translateY(-1px);
+}
+
+.go-live-btn.live {
+  animation: pulse-live 2s infinite;
+}
+
+@keyframes pulse-live {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(255, 71, 87, 0); }
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+}
+
+.header-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px 12px 4px 4px;
+  border-radius: 20px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--glass-border);
+  transition: background var(--transition-fast);
+  position: relative;
+}
+
+.header-profile:hover {
+  background: var(--bg-card);
+}
+
+.header-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  overflow: hidden;
+}
+
+.header-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.header-username {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  min-width: 180px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  z-index: 500;
+  display: none;
+  overflow: hidden;
+}
+
+.profile-dropdown.open {
+  display: block;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.dropdown-item:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.dropdown-item.danger {
+  color: var(--red);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: var(--glass-border);
+  margin: 4px 0;
+}
+
+/* ===== CONTENT AREA ===== */
+.content-area {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ===== STREAM VIEW ===== */
+.stream-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.video-container {
+  flex: 1;
+  position: relative;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.video-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  color: var(--text-muted);
+}
+
+.video-placeholder svg {
+  width: 80px;
+  height: 80px;
+  opacity: 0.3;
+}
+
+.video-placeholder p {
+  font-size: 16px;
+}
+
+/* Interactive Overlay */
+.stream-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.overlay-top {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  pointer-events: auto;
+}
+
+.stream-info-badge {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--red);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.live-badge .dot {
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.viewer-count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  backdrop-filter: blur(8px);
+}
+
+.overlay-bottom {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  pointer-events: auto;
+}
+
+.stream-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stream-meta .title {
+  font-size: 18px;
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+
+.stream-meta .handle {
+  font-size: 14px;
+  color: var(--cyan);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+}
+
+.stream-meta .category-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  background: rgba(138, 43, 226, 0.4);
+  border-radius: 4px;
+  font-size: 11px;
+  color: #d4a5ff;
+  margin-top: 4px;
+  width: fit-content;
+}
+
+.follow-btn {
+  padding: 8px 20px;
+  background: var(--purple);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all var(--transition-fast);
+}
+
+.follow-btn:hover {
+  background: #7b27cc;
+  box-shadow: 0 4px 16px var(--purple-glow);
+}
+
+.follow-btn.following {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--glass-border);
+}
+
+/* Reactions Layer */
+.reactions-layer {
+  position: absolute;
+  bottom: 60px;
+  right: 20px;
+  width: 60px;
+  height: 300px;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.floating-reaction {
+  position: absolute;
+  bottom: 0;
+  font-size: 28px;
+  animation: floatUp 3s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-300px) scale(0.5) rotate(20deg);
+    opacity: 0;
+  }
+}
+
+/* Broadcast Controls */
+.broadcast-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--glass-border);
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.control-sep {
+  width: 1px;
+  height: 24px;
+  background: var(--glass-border);
+  margin: 0 8px;
+}
+
+.bitrate-display {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.end-broadcast-btn {
+  padding: 8px 20px;
+  background: var(--red);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.end-broadcast-btn:hover {
+  background: #e8384f;
+  box-shadow: 0 4px 16px rgba(255, 71, 87, 0.4);
+}
+
+/* ===== CHAT PANEL ===== */
+.chat-panel {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  background: var(--bg-secondary);
+  border-left: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  z-index: 50;
+}
+
+.chat-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chat-header h3 {
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chat-header .chat-count {
+  font-size: 11px;
+  background: var(--purple);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.chat-message {
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+  position: relative;
+  group: message;
+}
+
+.chat-message:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+.chat-message .msg-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.msg-badge {
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.msg-badge.host {
+  background: var(--red);
+  color: white;
+}
+
+.msg-badge.mod {
+  background: var(--green);
+  color: white;
+}
+
+.msg-badge.sub {
+  background: var(--purple);
+  color: white;
+}
+
+.msg-username {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cyan);
+  cursor: pointer;
+}
+
+.msg-time {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.msg-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+.msg-actions {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: none;
+  gap: 2px;
+}
+
+.chat-message:hover .msg-actions {
+  display: flex;
+}
+
+.msg-action-btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: var(--bg-tertiary);
+  color: var(--text-muted);
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  transition: all var(--transition-fast);
+}
+
+.msg-action-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-card);
+}
+
+.msg-action-btn.pin-btn:hover { color: var(--orange); }
+.msg-action-btn.delete-btn:hover { color: var(--red); }
+.msg-action-btn.mute-btn:hover { color: var(--red); }
+
+.pinned-message {
+  background: rgba(255, 165, 2, 0.08);
+  border: 1px solid rgba(255, 165, 2, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  margin: 0 0 8px 0;
+  font-size: 13px;
+}
+
+.pinned-message .pin-label {
+  font-size: 10px;
+  color: var(--orange);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.chat-input-area {
+  padding: 12px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.reaction-bar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.reaction-btn {
+  width: 36px;
+  height: 32px;
+  border: none;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.reaction-btn:hover {
+  background: var(--bg-card);
+  transform: scale(1.15);
+}
+
+.chat-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.chat-input-row input {
+  flex: 1;
+  padding: 10px 14px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 14px;
+  outline: none;
+  transition: border var(--transition-fast);
+}
+
+.chat-input-row input:focus {
+  border-color: var(--purple);
+}
+
+.chat-send-btn {
+  width: 40px;
+  height: 40px;
+  background: var(--purple);
+  border: none;
+  border-radius: var(--radius-md);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.chat-send-btn:hover {
+  background: #7b27cc;
+}
+
+.emoji-picker-wrapper {
+  position: relative;
+}
+
+.emoji-picker-btn {
+  width: 40px;
+  height: 40px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all var(--transition-fast);
+}
+
+.emoji-picker-btn:hover {
+  background: var(--bg-card);
+}
+
+.emoji-picker-popup {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  margin-bottom: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  display: none;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 4px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  z-index: 200;
+  width: 280px;
+}
+
+.emoji-picker-popup.open {
+  display: grid;
+}
+
+.emoji-pick {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: none;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.emoji-pick:hover {
+  background: var(--bg-tertiary);
+  transform: scale(1.2);
+}
+
+/* ===== EXPLORE / DISCOVERY ===== */
+.explore-view {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.explore-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.explore-header h2 {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.explore-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.explore-tag {
+  padding: 6px 14px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.explore-tag:hover, .explore-tag.active {
+  background: var(--purple);
+  color: white;
+  border-color: var(--purple);
+}
+
+.stream-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.stream-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  border: 1px solid var(--glass-border);
+}
+
+.stream-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  border-color: var(--purple);
+}
+
+.stream-card-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--bg-tertiary);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stream-card-thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.stream-card-thumb .thumb-live {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+
+.stream-card-thumb .thumb-viewers {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(0,0,0,0.75);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stream-card-info {
+  padding: 14px;
+  display: flex;
+  gap: 10px;
+}
+
+.stream-card-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.stream-card-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.stream-card-meta .card-title {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.stream-card-meta .card-streamer {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.stream-card-meta .card-category {
+  font-size: 11px;
+  color: var(--purple);
+  margin-top: 4px;
+}
+
+.no-streams {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+
+.no-streams svg {
+  width: 64px;
+  height: 64px;
+  opacity: 0.3;
+  margin-bottom: 16px;
+}
+
+/* ===== MODALS ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+  animation: modalIn 0.3s ease;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.modal-header h3 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.modal-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all var(--transition-fast);
+}
+
+.modal-close:hover {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.device-selector {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.device-option {
+  flex: 1;
+  padding: 16px;
+  background: var(--bg-tertiary);
+  border: 2px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: center;
+  transition: all var(--transition-fast);
+}
+
+.device-option:hover {
+  border-color: var(--purple);
+}
+
+.device-option.selected {
+  border-color: var(--purple);
+  background: rgba(138, 43, 226, 0.1);
+}
+
+.device-option svg {
+  width: 32px;
+  height: 32px;
+  margin: 0 auto 8px;
+  display: block;
+  color: var(--text-secondary);
+}
+
+.device-option.selected svg {
+  color: var(--purple);
+}
+
+.device-option span {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.modal-preview {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #000;
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.modal-preview video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.modal-actions .btn {
+  flex: 1;
+}
+
+.start-stream-btn {
+  background: linear-gradient(135deg, var(--red), #e8384f);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
+}
+
+.start-stream-btn:hover {
+  box-shadow: 0 4px 20px rgba(255, 71, 87, 0.4);
+}
+
+/* ===== TOAST NOTIFICATIONS ===== */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toast {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  animation: slideInToast 0.3s ease, fadeOutToast 0.3s ease forwards;
+  animation-delay: 0s, 3.7s;
+  font-size: 14px;
+  min-width: 280px;
+}
+
+.toast.info { border-left: 3px solid var(--cyan); }
+.toast.success { border-left: 3px solid var(--green); }
+.toast.error { border-left: 3px solid var(--red); }
+.toast.warning { border-left: 3px solid var(--orange); }
+
+@keyframes slideInToast {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeOutToast {
+  to { opacity: 0; transform: translateX(50px); }
+}
+
+/* ===== HIDE UTILITY ===== */
+.hidden {
+  display: none !important;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .chat-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    min-width: 100%;
+    height: 50%;
+    border-left: none;
+    border-top: 1px solid var(--glass-border);
+    transform: translateY(100%);
+    transition: transform var(--transition-smooth);
+    z-index: 200;
+  }
+
+  .chat-panel.mobile-open {
+    transform: translateY(0);
+  }
+
+  .mobile-chat-toggle {
+    display: flex !important;
+  }
+
+  .header-search {
+    display: none;
+  }
+
+  .header-logo span {
+    display: none;
+  }
+
+  .latency-monitor {
+    display: none;
+  }
+
+  .header-username {
+    display: none;
+  }
+
+  .stream-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal {
+    margin: 16px;
+  }
+}
+
+.mobile-chat-toggle {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--purple);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 20px var(--purple-glow);
+  z-index: 150;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== LOADING SPINNER ===== */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.view {
+  width: 100%;
+  height: 100%;
+}
+
+.select-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 14px;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.select-input:focus {
+  border-color: var(--purple);
+}
+</style>
+</head>
+<body>
+
+<div id="app-container">
+  <!-- ===== AUTH VIEW: LOGIN ===== -->
+  <div id="view-login" class="view auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <svg viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="18" stroke="url(#logoGrad)" stroke-width="3"/>
+          <polygon points="16,12 30,20 16,28" fill="url(#logoGrad)"/>
+          <defs><linearGradient id="logoGrad" x1="0" y1="0" x2="40" y2="40"><stop offset="0%" stop-color="#8a2be2"/><stop offset="100%" stop-color="#00f2fe"/></linearGradient></defs>
+        </svg>
+        <span>StreamPulse</span>
+      </div>
+      <h2>Welcome Back</h2>
+      <p class="auth-subtitle">Sign in to your account</p>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="login-email" class="form-input" placeholder="your@email.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="login-password" class="form-input" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <div class="form-error" id="login-error"></div>
+      <button id="login-btn" class="btn btn-primary">Sign In</button>
+      <p class="auth-switch">Don't have an account? <a id="show-signup">Sign Up</a></p>
+    </div>
+  </div>
+
+  <!-- ===== AUTH VIEW: SIGNUP ===== -->
+  <div id="view-signup" class="view auth-wrapper hidden">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <svg viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="18" stroke="url(#logoGrad2)" stroke-width="3"/>
+          <polygon points="16,12 30,20 16,28" fill="url(#logoGrad2)"/>
+          <defs><linearGradient id="logoGrad2" x1="0" y1="0" x2="40" y2="40"><stop offset="0%" stop-color="#8a2be2"/><stop offset="100%" stop-color="#00f2fe"/></linearGradient></defs>
+        </svg>
+        <span>StreamPulse</span>
+      </div>
+      <h2>Create Account</h2>
+      <p class="auth-subtitle">Join the streaming community</p>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="signup-username" class="form-input" placeholder="@coolstreamer" maxlength="20" autocomplete="username">
+        <div class="form-error" id="username-error"></div>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="signup-email" class="form-input" placeholder="your@email.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="signup-password" class="form-input" placeholder="Min 6 characters" autocomplete="new-password">
+      </div>
+      <div class="form-error" id="signup-error"></div>
+      <button id="signup-btn" class="btn btn-primary">Create Account</button>
+      <p class="auth-switch">Already have an account? <a id="show-login">Sign In</a></p>
+    </div>
+  </div>
+
+  <!-- ===== PROFILE SETUP VIEW ===== -->
+  <div id="view-profile-setup" class="view auth-wrapper hidden">
+    <div class="auth-card profile-setup-card">
+      <div class="auth-logo">
+        <svg viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="18" stroke="url(#logoGrad3)" stroke-width="3"/>
+          <polygon points="16,12 30,20 16,28" fill="url(#logoGrad3)"/>
+          <defs><linearGradient id="logoGrad3" x1="0" y1="0" x2="40" y2="40"><stop offset="0%" stop-color="#8a2be2"/><stop offset="100%" stop-color="#00f2fe"/></linearGradient></defs>
+        </svg>
+        <span>StreamPulse</span>
+      </div>
+      <h2>Set Up Your Profile</h2>
+      <p class="auth-subtitle">Tell viewers about yourself</p>
+      <div class="avatar-upload">
+        <div class="avatar-preview" id="avatar-preview">👤</div>
+        <input type="text" id="avatar-url-input" class="form-input" placeholder="Avatar URL (optional)" style="max-width:260px;font-size:12px;">
+      </div>
+      <div class="form-group">
+        <label>Display Bio</label>
+        <textarea id="profile-bio" class="form-textarea" placeholder="Tell viewers what you stream..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Default Stream Category</label>
+        <select id="profile-category" class="select-input">
+          <option value="Gaming">Gaming</option>
+          <option value="Music">Music</option>
+          <option value="Art">Art & Creative</option>
+          <option value="Just Chatting">Just Chatting</option>
+          <option value="Tech">Technology</option>
+          <option value="Education">Education</option>
+          <option value="Fitness">Fitness</option>
+          <option value="Cooking">Cooking</option>
+        </select>
+      </div>
+      <div class="form-error" id="profile-error"></div>
+      <button id="save-profile-btn" class="btn btn-primary">Save & Continue</button>
+    </div>
+  </div>
+
+  <!-- ===== MAIN APP VIEW ===== -->
+  <div id="view-main" class="view main-layout hidden">
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="header-logo" id="nav-home">
+        <svg viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="18" stroke="url(#logoGrad4)" stroke-width="3"/>
+          <polygon points="16,12 30,20 16,28" fill="url(#logoGrad4)"/>
+          <defs><linearGradient id="logoGrad4" x1="0" y1="0" x2="40" y2="40"><stop offset="0%" stop-color="#8a2be2"/><stop offset="100%" stop-color="#00f2fe"/></linearGradient></defs>
+        </svg>
+        <span>StreamPulse</span>
+      </div>
+
+      <div class="header-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="search-input" placeholder="Search streams...">
+      </div>
+
+      <div class="header-right">
+        <div class="latency-monitor" id="latency-monitor">
+          <div class="latency-dot" id="latency-dot"></div>
+          <span id="latency-value">-- ms</span>
+        </div>
+
+        <button class="go-live-btn" id="go-live-btn">
+          <div class="live-dot"></div>
+          <span>Go Live</span>
+        </button>
+
+        <div class="header-profile" id="header-profile">
+          <div class="header-avatar" id="header-avatar">?</div>
+          <span class="header-username" id="header-username">user</span>
+          <div class="profile-dropdown" id="profile-dropdown">
+            <div class="dropdown-item" id="dropdown-edit-profile">
+              <span>✏️</span> Edit Profile
+            </div>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-item danger" id="dropdown-logout">
+              <span>🚪</span> Sign Out
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <div class="content-area">
+      <!-- EXPLORE VIEW -->
+      <div id="explore-view" class="explore-view">
+        <div class="explore-header">
+          <h2>🔴 Live Now</h2>
+          <div class="explore-tags">
+            <button class="explore-tag active" data-tag="all">All</button>
+            <button class="explore-tag" data-tag="Gaming">Gaming</button>
+            <button class="explore-tag" data-tag="Music">Music</button>
+            <button class="explore-tag" data-tag="Art">Art</button>
+            <button class="explore-tag" data-tag="Just Chatting">Chatting</button>
+            <button class="explore-tag" data-tag="Tech">Tech</button>
+          </div>
+        </div>
+        <div class="stream-grid" id="stream-grid">
+          <div class="no-streams" id="no-streams-msg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <p>No live streams right now</p>
+            <p style="font-size:13px;">Be the first to go live!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- STREAM VIEW -->
+      <div id="stream-view" class="stream-stage hidden">
+        <div class="video-container">
+          <video id="main-video" autoplay playsinline></video>
+          <div class="video-placeholder" id="video-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <p>Stream starting soon...</p>
+          </div>
+
+          <!-- Overlay -->
+          <div class="stream-overlay" id="stream-overlay">
+            <div class="overlay-top">
+              <div class="stream-info-badge">
+                <div class="live-badge" id="overlay-live-badge"><div class="dot"></div> LIVE</div>
+                <div class="viewer-count-badge">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                  <span id="viewer-count">0</span>
+                </div>
+              </div>
+            </div>
+            <div class="overlay-bottom">
+              <div class="stream-meta">
+                <div class="title" id="overlay-title">Stream Title</div>
+                <div class="handle" id="overlay-handle">@username</div>
+                <div class="category-tag" id="overlay-category">Category</div>
+              </div>
+              <button class="follow-btn" id="follow-btn">Follow</button>
+            </div>
+          </div>
+
+          <!-- Reactions Layer -->
+          <div class="reactions-layer" id="reactions-layer"></div>
+        </div>
+
+        <!-- Broadcast Controls (shown only for broadcaster) -->
+        <div class="broadcast-controls hidden" id="broadcast-controls">
+          <div class="control-group">
+            <button class="btn-icon" id="toggle-mic" title="Toggle Microphone">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+            </button>
+            <button class="btn-icon" id="toggle-camera" title="Toggle Camera">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.934a.5.5 0 0 0-.777-.416L16 11"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg>
+            </button>
+            <button class="btn-icon" id="toggle-screen" title="Screen Share">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            </button>
+          </div>
+          <div class="control-sep"></div>
+          <div class="bitrate-display" id="bitrate-display">720p • --kbps</div>
+          <div class="control-sep"></div>
+          <button class="btn-icon" id="toggle-recording" title="Record Locally">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6"/></svg>
+          </button>
+          <div class="control-sep"></div>
+          <button class="end-broadcast-btn" id="end-broadcast-btn">End Broadcast</button>
+        </div>
+      </div>
+
+      <!-- CHAT PANEL -->
+      <div class="chat-panel hidden" id="chat-panel">
+        <div class="chat-header">
+          <h3>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Live Chat
+            <span class="chat-count" id="chat-viewer-count">0</span>
+          </h3>
+          <button class="btn-icon" id="close-chat-mobile" style="display:none;">✕</button>
+        </div>
+
+        <div class="pinned-message hidden" id="pinned-message">
+          <div class="pin-label">📌 Pinned</div>
+          <div id="pinned-text"></div>
+        </div>
+
+        <div class="chat-messages" id="chat-messages"></div>
+
+        <div class="chat-input-area">
+          <div class="reaction-bar">
+            <button class="reaction-btn" data-emoji="❤️">❤️</button>
+            <button class="reaction-btn" data-emoji="🔥">🔥</button>
+            <button class="reaction-btn" data-emoji="👏">👏</button>
+            <button class="reaction-btn" data-emoji="😂">😂</button>
+            <button class="reaction-btn" data-emoji="😮">😮</button>
+            <button class="reaction-btn" data-emoji="🎉">🎉</button>
+            <button class="reaction-btn" data-emoji="💯">💯</button>
+            <button class="reaction-btn" data-emoji="⭐">⭐</button>
+          </div>
+          <div class="chat-input-row">
+            <div class="emoji-picker-wrapper">
+              <button class="emoji-picker-btn" id="emoji-picker-btn">😀</button>
+              <div class="emoji-picker-popup" id="emoji-picker-popup"></div>
+            </div>
+            <input type="text" id="chat-input" placeholder="Send a message..." maxlength="300" autocomplete="off">
+            <button class="chat-send-btn" id="chat-send-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STREAM SETUP MODAL -->
+<div class="modal-overlay" id="stream-setup-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>🔴 Go Live</h3>
+      <button class="modal-close" id="close-stream-modal">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label>Stream Title</label>
+      <input type="text" id="stream-title-input" class="form-input" placeholder="What are you streaming today?" maxlength="100">
+    </div>
+
+    <div class="form-group">
+      <label>Category</label>
+      <select id="stream-category-input" class="select-input">
+        <option value="Gaming">Gaming</option>
+        <option value="Music">Music</option>
+        <option value="Art">Art & Creative</option>
+        <option value="Just Chatting">Just Chatting</option>
+        <option value="Tech">Technology</option>
+        <option value="Education">Education</option>
+        <option value="Fitness">Fitness</option>
+        <option value="Cooking">Cooking</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Source</label>
+      <div class="device-selector">
+        <div class="device-option selected" id="opt-webcam" data-source="webcam">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.934a.5.5 0 0 0-.777-.416L16 11"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg>
+          <span>Webcam</span>
+        </div>
+        <div class="device-option" id="opt-screen" data-source="screen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <span>Screen Share</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-preview" id="stream-preview">
+      <video id="preview-video" autoplay playsinline muted></video>
+    </div>
+
+    <div class="form-error" id="stream-setup-error"></div>
+
+    <button class="start-stream-btn" id="start-stream-btn">
+      <div class="live-dot"></div>
+      Start Broadcasting
+    </button>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toast-container"></div>
+
+<!-- MOBILE CHAT TOGGLE -->
+<button class="mobile-chat-toggle" id="mobile-chat-toggle">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</button>
+
+<script>
+// ===========================
+// FIREBASE CONFIGURATION
+// ===========================
+const firebaseConfig = {
+  apiKey: "AIzaSyDemoKeyForStreamPulse123",
+  authDomain: "streampulse-demo.firebaseapp.com",
+  databaseURL: "https://streampulse-demo-default-rtdb.firebaseio.com",
+  projectId: "streampulse-demo",
+  storageBucket: "streampulse-demo.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abcdef123456"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.database();
+
+// ===========================
+// GLOBAL STATE
+// ===========================
+const APP = {
+  currentUser: null,
+  userProfile: null,
+  currentView: 'login',
+  currentStreamId: null,
+  isBroadcaster: false,
+  localStream: null,
+  screenStream: null,
+  peerConnections: {},
+  mediaRecorder: null,
+  recordedChunks: [],
+  isRecording: false,
+  isMicOn: true,
+  isCameraOn: true,
+  isScreenSharing: false,
+  previewStream: null,
+  selectedSource: 'webcam',
+  activeListeners: [],
+  latencyInterval: null,
+  statsInterval: null,
+  searchFilter: '',
+  categoryFilter: 'all'
+};
+
+const ICE_CONFIG = {
+  iceServers: [
+    { urls: 'stun:stun.l.google.com:19302' },
+    { urls: 'stun:stun1.l.google.com:19302' },
+    { urls: 'stun:stun2.l.google.com:19302' }
+  ]
+};
+
+// ===========================
+// UTILITY FUNCTIONS
+// ===========================
+function $(id) { return document.getElementById(id); }
+function show(el) { if (typeof el === 'string') el = $(el); el?.classList.remove('hidden'); }
+function hide(el) { if (typeof el === 'string') el = $(el); el?.classList.add('hidden'); }
+
+function showToast(message, type = 'info') {
+  const container = $('toast-container');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 4000);
+}
+
+function switchView(viewName) {
+  document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+  $(`view-${viewName}`)?.classList.remove('hidden');
+  APP.currentView = viewName;
+}
+
+function generateStreamId() {
+  return 'stream_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+}
+
+function sanitize(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function formatTime(ts) {
+  const d = new Date(ts);
+  return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function getInitial(name) {
+  return (name || '?').charAt(0).toUpperCase();
+}
+
+// ===========================
+// AUTH HANDLERS
+// ===========================
+$('show-signup').addEventListener('click', () => switchView('signup'));
+$('show-login').addEventListener('click', () => switchView('login'));
+
+$('login-btn').addEventListener('click', async () => {
+  const email = $('login-email').value.trim();
+  const password = $('login-password').value;
+  $('login-error').textContent = '';
+
+  if (!email || !password) {
+    $('login-error').textContent = 'Please fill in all fields.';
+    return;
+  }
+
+  $('login-btn').disabled = true;
+  $('login-btn').innerHTML = '<div class="spinner"></div>';
+
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+  } catch (err) {
+    $('login-error').textContent = err.message;
+    $('login-btn').disabled = false;
+    $('login-btn').textContent = 'Sign In';
+  }
+});
+
+$('signup-btn').addEventListener('click', async () => {
+  const username = $('signup-username').value.trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
+  const email = $('signup-email').value.trim();
+  const password = $('signup-password').value;
+  
+  $('signup-error').textContent = '';
+  $('username-error').textContent = '';
+
+  if (!username || username.length < 3) {
+    $('username-error').textContent = 'Username must be at least 3 characters (a-z, 0-9, _).';
+    return;
+  }
+
+  if (!email || !password) {
+    $('signup-error').textContent = 'Please fill in all fields.';
+    return;
+  }
+
+  if (password.length < 6) {
+    $('signup-error').textContent = 'Password must be at least 6 characters.';
+    return;
+  }
+
+  $('signup-btn').disabled = true;
+  $('signup-btn').innerHTML = '<div class="spinner"></div>';
+
+  try {
+    // Check username uniqueness
+    const usernameSnap = await db.ref(`usernames/${username}`).once('value');
+    if (usernameSnap.exists()) {
+      $('username-error').textContent = 'This username is already taken.';
+      $('signup-btn').disabled = false;
+      $('signup-btn').textContent = 'Create Account';
+      return;
+    }
+
+    const cred = await auth.createUserWithEmailAndPassword(email, password);
+    const uid = cred.user.uid;
+
+    // Reserve username
+    await db.ref(`usernames/${username}`).set(uid);
+
+    // Create user profile
+    await db.ref(`users/${uid}`).set({
+      username: username,
+      email: email,
+      bio: '',
+      avatar: '',
+      category: 'Gaming',
+      createdAt: firebase.database.ServerValue.TIMESTAMP,
+      profileComplete: false,
+      followers: {},
+      following: {}
+    });
+
+  } catch (err) {
+    $('signup-error').textContent = err.message;
+    $('signup-btn').disabled = false;
+    $('signup-btn').textContent = 'Create Account';
+  }
+});
+
+// Avatar URL preview
+$('avatar-url-input').addEventListener('input', (e) => {
+  const url = e.target.value.trim();
+  if (url) {
+    $('avatar-preview').innerHTML = `<img src="${sanitize(url)}" onerror="this.parentElement.textContent='👤'">`;
+  } else {
+    $('avatar-preview').textContent = '👤';
+  }
+});
+
+$('save-profile-btn').addEventListener('click', async () => {
+  const bio = $('profile-bio').value.trim();
+  const category = $('profile-category').value;
+  const avatar = $('avatar-url-input').value.trim();
+
+  $('save-profile-btn').disabled = true;
+  $('save-profile-btn').innerHTML = '<div class="spinner"></div>';
+
+  try {
+    await db.ref(`users/${APP.currentUser.uid}`).update({
+      bio,
+      category,
+      avatar,
+      profileComplete: true
+    });
+    showToast('Profile saved successfully!', 'success');
+  } catch (err) {
+    $('profile-error').textContent = err.message;
+    $('save-profile-btn').disabled = false;
+    $('save-profile-btn').textContent = 'Save & Continue';
+  }
+});
+
+// ===========================
+// AUTH STATE OBSERVER
+// ===========================
+auth.onAuthStateChanged(async (user) => {
+  if (user) {
+    APP.currentUser = user;
+
+    const snap = await db.ref(`users/${user.uid}`).once('value');
+    APP.userProfile = snap.val();
+
+    if (!APP.userProfile) {
+      switchView('signup');
+      return;
+    }
+
+    if (!APP.userProfile.profileComplete) {
+      switchView('profile-setup');
+      return;
+    }
+
+    // Setup presence
+    setupPresence();
+    initMainApp();
+    switchView('main');
+  } else {
+    APP.currentUser = null;
+    APP.userProfile = null;
+    cleanupAll();
+    switchView('login');
+  }
+});
+
+// ===========================
+// PRESENCE SYSTEM
+// ===========================
+function setupPresence() {
+  const uid = APP.currentUser.uid;
+  const presenceRef = db.ref(`presence/${uid}`);
+  const connectedRef = db.ref('.info/connected');
+
+  connectedRef.on('value', (snap) => {
+    if (snap.val() === true) {
+      presenceRef.set(true);
+      presenceRef.onDisconnect().remove();
+    }
+  });
+}
+
+// ===========================
+// MAIN APP INITIALIZATION
+// ===========================
+function initMainApp() {
+  const profile = APP.userProfile;
+
+  // Update header
+  $('header-username').textContent = `@${profile.username}`;
+  if (profile.avatar) {
+    $('header-avatar').innerHTML = `<img src="${sanitize(profile.avatar)}">`;
+  } else {
+    $('header-avatar').textContent = getInitial(profile.username);
+  }
+
+  // Load explore view
+  showExploreView();
+
+  // Start latency monitor
+  startLatencyMonitor();
+
+  // Populate emoji picker
+  populateEmojiPicker();
+
+  // Listen for active streams
+  listenForStreams();
+}
+
+// ===========================
+// LATENCY MONITOR
+// ===========================
+function startLatencyMonitor() {
+  if (APP.latencyInterval) clearInterval(APP.latencyInterval);
+
+  APP.latencyInterval = setInterval(async () => {
+    const start = Date.now();
+    try {
+      const offsetRef = db.ref('.info/serverTimeOffset');
+      await offsetRef.once('value');
+      const latency = Date.now() - start;
+      $('latency-value').textContent = `${latency}ms`;
+
+      const dot = $('latency-dot');
+      dot.className = 'latency-dot';
+      if (latency > 300) dot.classList.add('bad');
+      else if (latency > 150) dot.classList.add('warn');
+    } catch (e) {
+      $('latency-value').textContent = '-- ms';
+    }
+  }, 5000);
+}
+
+// ===========================
+// PROFILE DROPDOWN
+// ===========================
+$('header-profile').addEventListener('click', (e) => {
+  e.stopPropagation();
+  $('profile-dropdown').classList.toggle('open');
+});
+
+document.addEventListener('click', () => {
+  $('profile-dropdown').classList.remove('open');
+});
+
+$('dropdown-logout').addEventListener('click', async () => {
+  cleanupAll();
+  await auth.signOut();
+});
+
+$('dropdown-edit-profile').addEventListener('click', () => {
+  $('profile-dropdown').classList.remove('open');
+  $('profile-bio').value = APP.userProfile.bio || '';
+  $('profile-category').value = APP.userProfile.category || 'Gaming';
+  $('avatar-url-input').value = APP.userProfile.avatar || '';
+  if (APP.userProfile.avatar) {
+    $('avatar-preview').innerHTML = `<img src="${sanitize(APP.userProfile.avatar)}">`;
+  }
+  switchView('profile-setup');
+});
+
+// ===========================
+// EXPLORE & STREAM DISCOVERY
+// ===========================
+function showExploreView() {
+  show('explore-view');
+  hide('stream-view');
+  hide('chat-panel');
+  APP.currentStreamId = null;
+  APP.isBroadcaster = false;
+}
+
+function listenForStreams() {
+  const streamsRef = db.ref('streams');
+  streamsRef.on('value', (snap) => {
+    renderStreamGrid(snap.val() || {});
+  });
+  APP.activeListeners.push({ ref: streamsRef, event: 'value' });
+}
+
+function renderStreamGrid(streams) {
+  const grid = $('stream-grid');
+  const noStreams = $('no-streams-msg');
+  
+  const activeStreams = Object.entries(streams).filter(([, s]) => s.active);
+  
+  const filtered = activeStreams.filter(([, s]) => {
+    if (APP.categoryFilter !== 'all' && s.category !== APP.categoryFilter) return false;
+    if (APP.searchFilter) {
+      const q = APP.searchFilter.toLowerCase();
+      return (s.title || '').toLowerCase().includes(q) || 
+             (s.username || '').toLowerCase().includes(q);
+    }
+    return true;
+  });
+
+  // Clear existing cards
+  grid.querySelectorAll('.stream-card').forEach(c => c.remove());
+
+  if (filtered.length === 0) {
+    show(noStreams);
+    return;
+  }
+
+  hide(noStreams);
+
+  const frag = document.createDocumentFragment();
+  filtered.forEach(([streamId, stream]) => {
+    const card = document.createElement('div');
+    card.className = 'stream-card';
+    card.innerHTML = `
+      <div class="stream-card-thumb">
+        <div class="thumb-live">
+          <div class="live-badge"><div class="dot"></div> LIVE</div>
+        </div>
+        <div class="thumb-viewers">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+          ${stream.viewerCount || 0}
+        </div>
+      </div>
+      <div class="stream-card-info">
+        <div class="stream-card-avatar">${stream.avatar ? `<img src="${sanitize(stream.avatar)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : getInitial(stream.username)}</div>
+        <div class="stream-card-meta">
+          <div class="card-title">${sanitize(stream.title || 'Untitled Stream')}</div>
+          <div class="card-streamer">@${sanitize(stream.username || 'unknown')}</div>
+          <div class="card-category">${sanitize(stream.category || '')}</div>
+        </div>
+      </div>
+    `;
+    card.addEventListener('click', () => joinStream(streamId, stream));
+    frag.appendChild(card);
+  });
+
+  grid.appendChild(frag);
+}
+
+// Search & Filter
+$('search-input').addEventListener('input', (e) => {
+  APP.searchFilter = e.target.value.trim();
+  db.ref('streams').once('value', (snap) => renderStreamGrid(snap.val() || {}));
+});
+
+document.querySelectorAll('.explore-tag').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.explore-tag').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    APP.categoryFilter = btn.dataset.tag;
+    db.ref('streams').once('value', (snap) => renderStreamGrid(snap.val() || {}));
+  });
+});
+
+$('nav-home').addEventListener('click', () => {
+  if (APP.isBroadcaster && APP.currentStreamId) return;
+  leaveStream();
+  showExploreView();
+});
+
+// ===========================
+// GO LIVE - STREAM SETUP MODAL
+// ===========================
+$('go-live-btn').addEventListener('click', () => {
+  if (APP.isBroadcaster && APP.currentStreamId) {
+    // Already live, go to own stream
+    return;
+  }
+  $('stream-title-input').value = '';
+  $('stream-category-input').value = APP.userProfile?.category || 'Gaming';
+  $('stream-setup-error').textContent = '';
+  show('stream-setup-modal');
+  startPreview();
+});
+
+$('close-stream-modal').addEventListener('click', () => {
+  hide('stream-setup-modal');
+  stopPreview();
+});
+
+// Device selector
+document.querySelectorAll('.device-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('.device-option').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    APP.selectedSource = opt.dataset.source;
+    startPreview();
+  });
+});
+
+async function startPreview() {
+  stopPreview();
+  try {
+    if (APP.selectedSource === 'screen') {
+      APP.previewStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+    } else {
+      APP.previewStream = await navigator.mediaDevices.getUserMedia({ 
+        video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: 'user' },
+        audio: true 
+      });
+    }
+    $('preview-video').srcObject = APP.previewStream;
+  } catch (err) {
+    $('stream-setup-error').textContent = 'Could not access media: ' + err.message;
+  }
+}
+
+function stopPreview() {
+  if (APP.previewStream) {
+    APP.previewStream.getTracks().forEach(t => t.stop());
+    APP.previewStream = null;
+  }
+  $('preview-video').srcObject = null;
+}
+
+// ===========================
+// START BROADCASTING
+// ===========================
+$('start-stream-btn').addEventListener('click', async () => {
+  const title = $('stream-title-input').value.trim();
+  const category = $('stream-category-input').value;
+
+  if (!title) {
+    $('stream-setup-error').textContent = 'Please enter a stream title.';
+    return;
+  }
+
+  if (!APP.previewStream) {
+    $('stream-setup-error').textContent = 'No media source available.';
+    return;
+  }
+
+  hide('stream-setup-modal');
+
+  APP.localStream = APP.previewStream;
+  APP.previewStream = null;
+  APP.isBroadcaster = true;
+  APP.currentStreamId = generateStreamId();
+  APP.isScreenSharing = APP.selectedSource === 'screen';
+
+  // Create stream entry in Firebase
+  const streamData = {
+    active: true,
+    uid: APP.currentUser.uid,
+    username: APP.userProfile.username,
+    avatar: APP.userProfile.avatar || '',
+    title: title,
+    category: category,
+    startedAt: firebase.database.ServerValue.TIMESTAMP,
+    viewerCount: 0
+  };
+
+  await db.ref(`streams/${APP.currentStreamId}`).set(streamData);
+
+  // Set presence on stream
+  const viewerRef = db.ref(`streams/${APP.currentStreamId}/viewers/${APP.currentUser.uid}`);
+  viewerRef.set(true);
+  viewerRef.onDisconnect().remove();
+
+  // OnDisconnect: cleanup stream
+  db.ref(`streams/${APP.currentStreamId}/active`).onDisconnect().set(false);
+
+  // Show stream view
+  hide('explore-view');
+  show('stream-view');
+  show('chat-panel');
+  show('broadcast-controls');
+  hide('video-placeholder');
+
+  // Set local video
+  const video = $('main-video');
+  video.srcObject = APP.localStream;
+  video.muted = true; // Mute self playback
+
+  // Update overlay
+  $('overlay-title').textContent = title;
+  $('overlay-handle').textContent = `@${APP.userProfile.username}`;
+  $('overlay-category').textContent = category;
+  show('overlay-live-badge');
+  hide('follow-btn'); // Can't follow yourself
+
+  // Update go live button
+  $('go-live-btn').classList.add('live');
+  $('go-live-btn').querySelector('span').textContent = 'LIVE';
+
+  // Listen for viewer connection requests
+  listenForViewerRequests();
+
+  // Listen for chat & reactions
+  listenForChat();
+  listenForReactions();
+  listenForViewerCount();
+
+  // Start stats reporting
+  startStatsReporting();
+
+  showToast('You are now live!', 'success');
+});
+
+// ===========================
+// BROADCASTER: WEBRTC SIGNALING
+// ===========================
+function listenForViewerRequests() {
+  const requestsRef = db.ref(`streams/${APP.currentStreamId}/requests`);
+  
+  requestsRef.on('child_added', async (snap) => {
+    const viewerUid = snap.key;
+    if (viewerUid === APP.currentUser.uid) return;
+
+    console.log('New viewer request from:', viewerUid);
+
+    try {
+      const pc = new RTCPeerConnection(ICE_CONFIG);
+      APP.peerConnections[viewerUid] = pc;
+
+      // Add local tracks to connection
+      APP.localStream.getTracks().forEach(track => {
+        pc.addTrack(track, APP.localStream);
+      });
+
+      // ICE candidate handling
+      pc.onicecandidate = (event) => {
+        if (event.candidate) {
+          db.ref(`streams/${APP.currentStreamId}/connections/${viewerUid}/broadcasterCandidates`).push(event.candidate.toJSON());
+        }
+      };
+
+      pc.onconnectionstatechange = () => {
+        if (pc.connectionState === 'disconnected' || pc.connectionState === 'failed') {
+          cleanupPeerConnection(viewerUid);
+        }
+      };
+
+      // Create offer
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+
+      await db.ref(`streams/${APP.currentStreamId}/connections/${viewerUid}/offer`).set({
+        type: offer.type,
+        sdp: offer.sdp
+      });
+
+      // Listen for answer
+      db.ref(`streams/${APP.currentStreamId}/connections/${viewerUid}/answer`).on('value', async (ansSnap) => {
+        const answer = ansSnap.val();
+        if (answer && pc.signalingState === 'have-local-offer') {
+          await pc.setRemoteDescription(new RTCSessionDescription(answer));
+        }
+      });
+
+      // Listen for viewer ICE candidates
+      db.ref(`streams/${APP.currentStreamId}/connections/${viewerUid}/viewerCandidates`).on('child_added', async (candSnap) => {
+        try {
+          await pc.addIceCandidate(new RTCIceCandidate(candSnap.val()));
+        } catch (e) {
+          console.warn('Error adding ICE candidate:', e);
+        }
+      });
+
+    } catch (err) {
+      console.error('Error setting up peer connection for viewer:', viewerUid, err);
+    }
+  });
+
+  APP.activeListeners.push({ ref: requestsRef, event: 'child_added' });
+}
+
+function cleanupPeerConnection(viewerUid) {
+  const pc = APP.peerConnections[viewerUid];
+  if (pc) {
+    pc.close();
+    delete APP.peerConnections[viewerUid];
+  }
+  db.ref(`streams/${APP.currentStreamId}/connections/${viewerUid}`).remove();
+}
+
+// ===========================
+// VIEWER: JOIN STREAM
+// ===========================
+async function joinStream(streamId, streamData) {
+  if (APP.isBroadcaster) return;
+  
+  // If we're the broadcaster of this stream
+  if (streamData.uid === APP.currentUser?.uid) {
+    showToast('This is your own stream!', 'warning');
+    return;
+  }
+
+  leaveStream();
+
+  APP.currentStreamId = streamId;
+  APP.isBroadcaster = false;
+
+  // Show stream view
+  hide('explore-view');
+  show('stream-view');
+  show('chat-panel');
+  hide('broadcast-controls');
+  show('video-placeholder');
+
+  // Update overlay
+  $('overlay-title').textContent = streamData.title || 'Untitled';
+  $('overlay-handle').textContent = `@${streamData.username}`;
+  $('overlay-category').textContent = streamData.category || '';
+  show('overlay-live-badge');
+  show('follow-btn');
+  updateFollowButton(streamData.uid);
+
+  // Register as viewer
+  const viewerRef = db.ref(`streams/${streamId}/viewers/${APP.currentUser.uid}`);
+  viewerRef.set(true);
+  viewerRef.onDisconnect().remove();
+
+  // Send connection request
+  await db.ref(`streams/${streamId}/requests/${APP.currentUser.uid}`).set(true);
+
+  // Listen for SDP offer from broadcaster
+  const offerRef = db.ref(`streams/${streamId}/connections/${APP.currentUser.uid}/offer`);
+  offerRef.on('value', async (snap) => {
+    const offer = snap.val();
+    if (!offer) return;
+
+    try {
+      // Cleanup old connection
+      if (APP.peerConnections['broadcaster']) {
+        APP.peerConnections['broadcaster'].close();
+      }
+
+      const pc = new RTCPeerConnection(ICE_CONFIG);
+      APP.peerConnections['broadcaster'] = pc;
+
+      pc.ontrack = (event) => {
+        hide('video-placeholder');
+        const video = $('main-video');
+        video.srcObject = event.streams[0];
+        video.muted = false;
+      };
+
+      pc.onicecandidate = (event) => {
+        if (event.candidate) {
+          db.ref(`streams/${streamId}/connections/${APP.currentUser.uid}/viewerCandidates`).push(event.candidate.toJSON());
+        }
+      };
+
+      pc.onconnectionstatechange = () => {
+        if (pc.connectionState === 'connected') {
+          showToast('Connected to stream!', 'success');
+        } else if (pc.connectionState === 'disconnected' || pc.connectionState === 'failed') {
+          showToast('Connection lost', 'error');
+        }
+      };
+
+      await pc.setRemoteDescription(new RTCSessionDescription(offer));
+      const answer = await pc.createAnswer();
+      await pc.setLocalDescription(answer);
+
+      await db.ref(`streams/${streamId}/connections/${APP.currentUser.uid}/answer`).set({
+        type: answer.type,
+        sdp: answer.sdp
+      });
+
+      // Listen for broadcaster ICE candidates
+      db.ref(`streams/${streamId}/connections/${APP.currentUser.uid}/broadcasterCandidates`).on('child_added', async (candSnap) => {
+        try {
+          await pc.addIceCandidate(new RTCIceCandidate(candSnap.val()));
+        } catch (e) {
+          console.warn('Error adding ICE candidate:', e);
+        }
+      });
+
+    } catch (err) {
+      console.error('Error connecting to stream:', err);
+      showToast('Failed to connect: ' + err.message, 'error');
+    }
+  });
+
+  APP.activeListeners.push({ ref: offerRef, event: 'value' });
+
+  // Listen for chat, reactions, viewer count
+  listenForChat();
+  listenForReactions();
+  listenForViewerCount();
+
+  // Check if stream goes offline
+  const activeRef = db.ref(`streams/${streamId}/active`);
+  activeRef.on('value', (snap) => {
+    if (snap.val() === false) {
+      showToast('Stream has ended', 'info');
+      leaveStream();
+      showExploreView();
+    }
+  });
+  APP.activeListeners.push({ ref: activeRef, event: 'value' });
+
+  showToast(`Joined @${streamData.username}'s stream`, 'info');
+}
+
+function leaveStream() {
+  // Remove viewer presence
+  if (APP.currentStreamId && APP.currentUser) {
+    db.ref(`streams/${APP.currentStreamId}/viewers/${APP.currentUser.uid}`).remove();
+    
+    if (!APP.isBroadcaster) {
+      db.ref(`streams/${APP.currentStreamId}/requests/${APP.currentUser.uid}`).remove();
+      db.ref(`streams/${APP.currentStreamId}/connections/${APP.currentUser.uid}`).remove();
+    }
+  }
+
+  // Close peer connections
+  Object.values(APP.peerConnections).forEach(pc => pc.close());
+  APP.peerConnections = {};
+
+  // Clear video
+  $('main-video').srcObject = null;
+
+  // Clear chat
+  $('chat-messages').innerHTML = '';
+  hide('pinned-message');
+
+  // Remove active listeners (except streams list)
+  APP.activeListeners.forEach(({ ref, event }) => ref.off(event));
+  APP.activeListeners = [];
+
+  // Re-listen for streams if going back to explore
+  listenForStreams();
+
+  APP.currentStreamId = null;
+}
+
+// ===========================
+// BROADCAST CONTROLS
+// ===========================
+$('toggle-mic').addEventListener('click', () => {
+  if (!APP.localStream) return;
+  APP.isMicOn = !APP.isMicOn;
+  APP.localStream.getAudioTracks().forEach(t => { t.enabled = APP.isMicOn; });
+  $('toggle-mic').classList.toggle('muted', !APP.isMicOn);
+  $('toggle-mic').title = APP.isMicOn ? 'Mute Microphone' : 'Unmute Microphone';
+});
+
+$('toggle-camera').addEventListener('click', () => {
+  if (!APP.localStream) return;
+  APP.isCameraOn = !APP.isCameraOn;
+  APP.localStream.getVideoTracks().forEach(t => { t.enabled = APP.isCameraOn; });
+  $('toggle-camera').classList.toggle('muted', !APP.isCameraOn);
+  $('toggle-camera').title = APP.isCameraOn ? 'Turn Off Camera' : 'Turn On Camera';
+});
+
+$('toggle-screen').addEventListener('click', async () => {
+  if (!APP.isBroadcaster || !APP.localStream) return;
+
+  try {
+    if (APP.isScreenSharing) {
+      // Switch back to webcam
+      const camStream = await navigator.mediaDevices.getUserMedia({ 
+        video: { width: { ideal: 1280 }, height: { ideal: 720 } },
+        audio: true 
+      });
+      const newVideoTrack = camStream.getVideoTracks()[0];
+      
+      // Replace track in all peer connections
+      for (const pc of Object.values(APP.peerConnections)) {
+        const sender = pc.getSenders().find(s => s.track?.kind === 'video');
+        if (sender) await sender.replaceTrack(newVideoTrack);
+      }
+
+      // Stop old screen track
+      APP.localStream.getVideoTracks().forEach(t => t.stop());
+      
+      // Replace in local stream
+      APP.localStream.removeTrack(APP.localStream.getVideoTracks()[0]);
+      APP.localStream.addTrack(newVideoTrack);
+      
+      // Also replace audio if new
+      const newAudioTrack = camStream.getAudioTracks()[0];
+      if (newAudioTrack) {
+        const oldAudio = APP.localStream.getAudioTracks()[0];
+        if (oldAudio) {
+          for (const pc of Object.values(APP.peerConnections)) {
+            const sender = pc.getSenders().find(s => s.track?.kind === 'audio');
+            if (sender) await sender.replaceTrack(newAudioTrack);
+          }
+          APP.localStream.removeTrack(oldAudio);
+          oldAudio.stop();
+        }
+        APP.localStream.addTrack(newAudioTrack);
+      }
+
+      $('main-video').srcObject = APP.localStream;
+      APP.isScreenSharing = false;
+      $('toggle-screen').classList.remove('active');
+      showToast('Switched to webcam', 'info');
+    } else {
+      // Switch to screen share
+      const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+      const screenTrack = screenStream.getVideoTracks()[0];
+
+      // Handle user stopping screen share via browser UI
+      screenTrack.onended = () => {
+        $('toggle-screen').click(); // Switch back
+      };
+
+      // Replace track in all peer connections
+      for (const pc of Object.values(APP.peerConnections)) {
+        const sender = pc.getSenders().find(s => s.track?.kind === 'video');
+        if (sender) await sender.replaceTrack(screenTrack);
+      }
+
+      // Stop old video track
+      APP.localStream.getVideoTracks().forEach(t => t.stop());
+      APP.localStream.removeTrack(APP.localStream.getVideoTracks()[0]);
+      APP.localStream.addTrack(screenTrack);
+
+      $('main-video').srcObject = APP.localStream;
+      APP.isScreenSharing = true;
+      $('toggle-screen').classList.add('active');
+      showToast('Screen sharing started', 'info');
+    }
+  } catch (err) {
+    console.error('Screen share toggle error:', err);
+    showToast('Could not switch: ' + err.message, 'error');
+  }
+});
+
+// LOCAL RECORDING
+$('toggle-recording').addEventListener('click', () => {
+  if (!APP.localStream) return;
+
+  if (APP.isRecording) {
+    APP.mediaRecorder.stop();
+    APP.isRecording = false;
+    $('toggle-recording').classList.remove('active');
+    $('toggle-recording').style.color = '';
+    showToast('Recording stopped, downloading...', 'info');
+  } else {
+    APP.recordedChunks = [];
+    const options = { mimeType: 'video/webm;codecs=vp9,opus' };
+    
+    try {
+      APP.mediaRecorder = new MediaRecorder(APP.localStream, options);
+    } catch (e) {
+      try {
+        APP.mediaRecorder = new MediaRecorder(APP.localStream, { mimeType: 'video/webm' });
+      } catch (e2) {
+        showToast('Recording not supported in this browser', 'error');
+        return;
+      }
+    }
+
+    APP.mediaRecorder.ondataavailable = (e) => {
+      if (e.data.size > 0) APP.recordedChunks.push(e.data);
+    };
+
+    APP.mediaRecorder.onstop = () => {
+      const blob = new Blob(APP.recordedChunks, { type: 'video/webm' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `streampulse_${Date.now()}.webm`;
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+
+    APP.mediaRecorder.start(1000);
+    APP.isRecording = true;
+    $('toggle-recording').classList.add('active');
+    $('toggle-recording').style.color = 'var(--red)';
+    showToast('Recording started', 'success');
+  }
+});
+
+// END BROADCAST
+$('end-broadcast-btn').addEventListener('click', async () => {
+  if (!APP.currentStreamId) return;
+
+  // Stop recording if active
+  if (APP.isRecording && APP.mediaRecorder) {
+    APP.mediaRecorder.stop();
+    APP.isRecording = false;
+  }
+
+  // Stop local stream
+  if (APP.localStream) {
+    APP.localStream.getTracks().forEach(t => t.stop());
+    APP.localStream = null;
+  }
+
+  // Close all peer connections
+  Object.entries(APP.peerConnections).forEach(([uid, pc]) => {
+    pc.close();
+  });
+  APP.peerConnections = {};
+
+  // Update Firebase
+  await db.ref(`streams/${APP.currentStreamId}/active`).set(false);
+
+  // Clean up signaling data
+  db.ref(`streams/${APP.currentStreamId}/requests`).remove();
+  db.ref(`streams/${APP.currentStreamId}/connections`).remove();
+  db.ref(`streams/${APP.currentStreamId}/viewers`).remove();
+
+  // Reset UI
+  $('go-live-btn').classList.remove('live');
+  $('go-live-btn').querySelector('span').textContent = 'Go Live';
+  APP.isBroadcaster = false;
+  APP.currentStreamId = null;
+  $('main-video').srcObject = null;
+
+  // Clear stats
+  if (APP.statsInterval) {
+    clearInterval(APP.statsInterval);
+    APP.statsInterval = null;
+  }
+
+  showExploreView();
+  showToast('Broadcast ended', 'info');
+});
+
+// ===========================
+// STATS REPORTING
+// ===========================
+function startStatsReporting() {
+  if (APP.statsInterval) clearInterval(APP.statsInterval);
+
+  APP.statsInterval = setInterval(async () => {
+    if (!APP.isBroadcaster) return;
+
+    let totalBitrate = 0;
+    let connectionCount = 0;
+
+    for (const pc of Object.values(APP.peerConnections)) {
+      try {
+        const stats = await pc.getStats();
+        stats.forEach(report => {
+          if (report.type === 'outbound-rtp' && report.kind === 'video') {
+            if (report.bytesSent) {
+              totalBitrate += report.bytesSent;
+              connectionCount++;
+            }
+          }
+        });
+      } catch (e) {}
+    }
+
+    const videoTrack = APP.localStream?.getVideoTracks()[0];
+    const settings = videoTrack?.getSettings() || {};
+    const res = settings.height ? `${settings.height}p` : '720p';
+    
+    $('bitrate-display').textContent = `${res} • ${connectionCount} viewer${connectionCount !== 1 ? 's' : ''} connected`;
+  }, 3000);
+}
+
+// ===========================
+// CHAT SYSTEM
+// ===========================
+function listenForChat() {
+  if (!APP.currentStreamId) return;
+
+  const chatRef = db.ref(`chats/${APP.currentStreamId}`).orderByChild('timestamp').limitToLast(100);
+  
+  $('chat-messages').innerHTML = '';
+
+  chatRef.on('child_added', (snap) => {
+    const msg = snap.val();
+    msg.key = snap.key;
+    renderChatMessage(msg);
+  });
+
+  chatRef.on('child_removed', (snap) => {
+    const el = document.querySelector(`[data-msg-key="${snap.key}"]`);
+    if (el) el.remove();
+  });
+
+  APP.activeListeners.push({ ref: chatRef, event: 'child_added' });
+  APP.activeListeners.push({ ref: chatRef, event: 'child_removed' });
+
+  // Listen for pinned message
+  const pinRef = db.ref(`streams/${APP.currentStreamId}/pinnedMessage`);
+  pinRef.on('value', (snap) => {
+    const pinned = snap.val();
+    if (pinned) {
+      $('pinned-text').textContent = pinned.text;
+      show('pinned-message');
+    } else {
+      hide('pinned-message');
+    }
+  });
+  APP.activeListeners.push({ ref: pinRef, event: 'value' });
+}
+
+function renderChatMessage(msg) {
+  const container = $('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'chat-message';
+  div.dataset.msgKey = msg.key;
+  div.dataset.uid = msg.uid;
+
+  let badgeHTML = '';
+  if (msg.isHost) badgeHTML = '<span class="msg-badge host">HOST</span>';
+  else if (msg.isMod) badgeHTML = '<span class="msg-badge mod">MOD</span>';
+  else if (msg.isSub) badgeHTML = '<span class="msg-badge sub">SUB</span>';
+
+  // Determine if current user is the host of this stream
+  const isCurrentUserHost = APP.isBroadcaster;
+
+  div.innerHTML = `
+    <div class="msg-header">
+      ${badgeHTML}
+      <span class="msg-username" style="color: ${msg.color || '#00f2fe'}">${sanitize(msg.username)}</span>
+      <span class="msg-time">${formatTime(msg.timestamp)}</span>
+    </div>
+    <div class="msg-text">${sanitize(msg.text)}</div>
+    ${isCurrentUserHost ? `
+    <div class="msg-actions">
+      <button class="msg-action-btn pin-btn" title="Pin message" onclick="pinMessage('${msg.key}', '${sanitize(msg.text).replace(/'/g, "\\'")}')">📌</button>
+      <button class="msg-action-btn delete-btn" title="Delete message" onclick="deleteMessage('${msg.key}')">🗑️</button>
+      <button class="msg-action-btn mute-btn" title="Mute user" onclick="muteUser('${msg.uid}', '${sanitize(msg.username)}')">🔇</button>
+    </div>
+    ` : ''}
+  `;
+
+  container.appendChild(div);
+
+  // Auto scroll
+  container.scrollTop = container.scrollHeight;
+}
+
+// Send chat message
+function sendChatMessage() {
+  const input = $('chat-input');
+  const text = input.value.trim();
+  if (!text || !APP.currentStreamId || !APP.currentUser) return;
+
+  // Check if muted
+  db.ref(`streams/${APP.currentStreamId}/mutedUsers/${APP.currentUser.uid}`).once('value', (snap) => {
+    if (snap.exists()) {
+      showToast('You are muted in this chat', 'error');
+      return;
+    }
+
+    const colors = ['#00f2fe', '#8a2be2', '#ff6b6b', '#ffd93d', '#6bff8e', '#ff6bff', '#6bcaff', '#ffab6b'];
+    const color = colors[Math.abs(hashCode(APP.currentUser.uid)) % colors.length];
+
+    db.ref(`chats/${APP.currentStreamId}`).push({
+      uid: APP.currentUser.uid,
+      username: APP.userProfile.username,
+      text: text,
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
+      isHost: APP.isBroadcaster,
+      isMod: false,
+      isSub: false,
+      color: color
+    });
+
+    input.value = '';
+  });
+}
+
+function hashCode(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const c = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + c;
+    hash |= 0;
+  }
+  return hash;
+}
+
+$('chat-send-btn').addEventListener('click', sendChatMessage);
+$('chat-input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') sendChatMessage();
+});
+
+// Moderation
+window.deleteMessage = function(key) {
+  if (!APP.currentStreamId || !APP.isBroadcaster) return;
+  db.ref(`chats/${APP.currentStreamId}/${key}`).remove();
+};
+
+window.pinMessage = function(key, text) {
+  if (!APP.currentStreamId || !APP.isBroadcaster) return;
+  db.ref(`streams/${APP.currentStreamId}/pinnedMessage`).set({ key, text });
+  showToast('Message pinned!', 'success');
+};
+
+window.muteUser = function(uid, username) {
+  if (!APP.currentStreamId || !APP.isBroadcaster) return;
+  db.ref(`streams/${APP.currentStreamId}/mutedUsers/${uid}`).set(true);
+  showToast(`@${username} has been muted`, 'warning');
+};
+
+// ===========================
+// EMOJI PICKER
+// ===========================
+function populateEmojiPicker() {
+  const emojis = ['😀','😂','🤣','😍','🥰','😎','🤩','😇','🥳','😜','🤗','🤔','😬','😱','🤯','😴','🤮','👍','👎','👏','🙌','🔥','❤️','💯','⭐','🎉','🎊','🎵','💎','🏆','🚀','💪','✨','🌟','💫','🦄','🍕','🎮','🖥️','📱'];
+  
+  const picker = $('emoji-picker-popup');
+  picker.innerHTML = '';
+  emojis.forEach(emoji => {
+    const btn = document.createElement('button');
+    btn.className = 'emoji-pick';
+    btn.textContent = emoji;
+    btn.addEventListener('click', () => {
+      $('chat-input').value += emoji;
+      $('chat-input').focus();
+      picker.classList.remove('open');
+    });
+    picker.appendChild(btn);
+  });
+}
+
+$('emoji-picker-btn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  $('emoji-picker-popup').classList.toggle('open');
+});
+
+document.addEventListener('click', () => {
+  $('emoji-picker-popup').classList.remove('open');
+});
+
+$('emoji-picker-popup').addEventListener('click', (e) => e.stopPropagation());
+
+// ===========================
+// REACTIONS SYSTEM
+// ===========================
+document.querySelectorAll('.reaction-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (!APP.currentStreamId) return;
+    const emoji = btn.dataset.emoji;
+    db.ref(`streams/${APP.currentStreamId}/reactions`).push({
+      emoji,
+      uid: APP.currentUser.uid,
+      timestamp: firebase.database.ServerValue.TIMESTAMP
+    });
+  });
+});
+
+function listenForReactions() {
+  if (!APP.currentStreamId) return;
+
+  const reactRef = db.ref(`streams/${APP.currentStreamId}/reactions`).orderByChild('timestamp').limitToLast(1);
+  
+  reactRef.on('child_added', (snap) => {
+    const data = snap.val();
+    if (data) spawnFloatingReaction(data.emoji);
+    // Clean up old reactions
+    snap.ref.remove();
+  });
+
+  APP.activeListeners.push({ ref: reactRef, event: 'child_added' });
+}
+
+function spawnFloatingReaction(emoji) {
+  const layer = $('reactions-layer');
+  const el = document.createElement('div');
+  el.className = 'floating-reaction';
+  el.textContent = emoji;
+  el.style.left = Math.random() * 40 + 'px';
+  el.style.animationDuration = (2 + Math.random() * 2) + 's';
+  layer.appendChild(el);
+  setTimeout(() => el.remove(), 4000);
+}
+
+// ===========================
+// VIEWER COUNT
+// ===========================
+function listenForViewerCount() {
+  if (!APP.currentStreamId) return;
+
+  const viewersRef = db.ref(`streams/${APP.currentStreamId}/viewers`);
+  viewersRef.on('value', (snap) => {
+    const count = snap.numChildren();
+    $('viewer-count').textContent = count;
+    $('chat-viewer-count').textContent = count;
+
+    // Update stream viewerCount
+    if (APP.isBroadcaster) {
+      db.ref(`streams/${APP.currentStreamId}/viewerCount`).set(count);
+    }
+  });
+
+  APP.activeListeners.push({ ref: viewersRef, event: 'value' });
+}
+
+// ===========================
+// FOLLOW SYSTEM
+// ===========================
+async function updateFollowButton(streamerUid) {
+  if (!APP.currentUser) return;
+
+  const followRef = db.ref(`users/${APP.currentUser.uid}/following/${streamerUid}`);
+  const snap = await followRef.once('value');
+  
+  const btn = $('follow-btn');
+  if (snap.exists()) {
+    btn.textContent = 'Following';
+    btn.classList.add('following');
+  } else {
+    btn.textContent = 'Follow';
+    btn.classList.remove('following');
+  }
+}
+
+$('follow-btn').addEventListener('click', async () => {
+  if (!APP.currentStreamId || !APP.currentUser) return;
+
+  // Get streamer UID from stream data
+  const streamSnap = await db.ref(`streams/${APP.currentStreamId}/uid`).once('value');
+  const streamerUid = streamSnap.val();
+  if (!streamerUid || streamerUid === APP.currentUser.uid) return;
+
+  const followRef = db.ref(`users/${APP.currentUser.uid}/following/${streamerUid}`);
+  const followerRef = db.ref(`users/${streamerUid}/followers/${APP.currentUser.uid}`);
+  
+  const snap = await followRef.once('value');
+  
+  if (snap.exists()) {
+    await followRef.remove();
+    await followerRef.remove();
+    $('follow-btn').textContent = 'Follow';
+    $('follow-btn').classList.remove('following');
+    showToast('Unfollowed', 'info');
+  } else {
+    await followRef.set(true);
+    await followerRef.set(true);
+    $('follow-btn').textContent = 'Following';
+    $('follow-btn').classList.add('following');
+    showToast('Followed!', 'success');
+
+    // Notify broadcaster
+    if (APP.currentStreamId) {
+      db.ref(`chats/${APP.currentStreamId}`).push({
+        uid: 'system',
+        username: 'System',
+        text: `@${APP.userProfile.username} just followed!`,
+        timestamp: firebase.database.ServerValue.TIMESTAMP,
+        isHost: false,
+        isMod: false,
+        isSub: false,
+        color: '#ffd93d'
+      });
+    }
+  }
+});
+
+// ===========================
+// MOBILE CHAT TOGGLE
+// ===========================
+$('mobile-chat-toggle')?.addEventListener('click', () => {
+  $('chat-panel').classList.toggle('mobile-open');
+});
+
+$('close-chat-mobile')?.addEventListener('click', () => {
+  $('chat-panel').classList.remove('mobile-open');
+});
+
+// Show close button on mobile
+if (window.innerWidth <= 768) {
+  const closeBtn = $('close-chat-mobile');
+  if (closeBtn) closeBtn.style.display = 'flex';
+}
+
+// ===========================
+// CLEANUP
+// ===========================
+function cleanupAll() {
+  // Stop any active stream
+  if (APP.localStream) {
+    APP.localStream.getTracks().forEach(t => t.stop());
+    APP.localStream = null;
+  }
+
+  stopPreview();
+
+  // Stop recording
+  if (APP.isRecording && APP.mediaRecorder) {
+    try { APP.mediaRecorder.stop(); } catch (e) {}
+    APP.isRecording = false;
+  }
+
+  // Close peer connections
+  Object.values(APP.peerConnections).forEach(pc => {
+    try { pc.close(); } catch (e) {}
+  });
+  APP.peerConnections = {};
+
+  // Remove listeners
+  APP.activeListeners.forEach(({ ref, event }) => {
+    try { ref.off(event); } catch (e) {}
+  });
+  APP.activeListeners = [];
+
+  // Clear intervals
+  if (APP.latencyInterval) clearInterval(APP.latencyInterval);
+  if (APP.statsInterval) clearInterval(APP.statsInterval);
+
+  // Mark stream as inactive if broadcaster
+  if (APP.isBroadcaster && APP.currentStreamId) {
+    db.ref(`streams/${APP.currentStreamId}/active`).set(false);
+  }
+
+  APP.currentStreamId = null;
+  APP.isBroadcaster = false;
+}
+
+// Handle page unload
+window.addEventListener('beforeunload', () => {
+  cleanupAll();
+});
+
+// ===========================
+// KEYBOARD SHORTCUTS
+// ===========================
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+  if (e.key === 'm' && APP.isBroadcaster) {
+    $('toggle-mic').click();
+  }
+  if (e.key === 'v' && APP.isBroadcaster) {
+    $('toggle-camera').click();
+  }
+  if (e.key === 'Escape') {
+    hide('stream-setup-modal');
+    stopPreview();
+    $('profile-dropdown').classList.remove('open');
+    $('emoji-picker-popup').classList.remove('open');
+  }
+});
+
+// ===========================
+// Initial state
+// ===========================
+console.log('%c StreamPulse %c Live Streaming Platform ', 
+  'background: #8a2be2; color: white; font-weight: bold; padding: 4px 8px; border-radius: 4px 0 0 4px;',
+  'background: #00f2fe; color: #0f0f12; font-weight: bold; padding: 4px 8px; border-radius: 0 4px 4px 0;'
+);
+</script>
+</body>
+</html>
